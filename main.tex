@@ -1,6 +1,6 @@
 \documentclass[conference]{IEEEtran}
 
-\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{amsmath}
 \usepackage{algorithmic}
 \usepackage{graphicx}
 \usepackage{textcomp}
@@ -19,9 +19,11 @@ eprint=false
 \addbibresource{references.bib}
 
 % utility 
+\usepackage{subcaption}
 \usepackage{microtype}
+\usepackage{comment}
 \usepackage{siunitx}
-%\usepackage[capitalise]{cleverref}
+\usepackage[capitalise]{cleveref}
 \begin{document}
 
 
@@ -56,13 +58,13 @@ Inductive power transfer (IPT) is a wireless charging technology that enables po
 The application of this technology to the charging of EVs could enable more reliable and convenient charging of EVs of all power levels \cite{covicModernTrendsInductive2013b}. 
 
 At higher power levels, thermal issues limit power density. 
-In order to improve the thermal performance of the IPT magnetics, both the coil and core layer (shown in \ref{fig:padstructure}) are `potted' in an encapsulant material \cite{kneidlProcessingInfluencesResinbased2020}. 
+In order to improve the thermal performance of the IPT magnetics, both the coil and core layer (shown in \cref{fig:padstructure}) are `potted' in an encapsulant material \cite{kneidlProcessingInfluencesResinbased2020}. 
 Typical encapsulant materials are resin-based with high toughness and thermal conductivity which improves the temperature profile uniformity and allows for a higher current density in the coil. 
 However, several articles have noted the deterimental effect of encapsulant materials on the magnetic performance of ferrites. 
 
 Polycrystalline ferrites show decreased magnetic permeability and a widening $B$-$H$ curve under applied pressure due to the compressed topography of the domain walls \cite{leflochEffectPressureSoft1981}. 
 Foote et. al verified the reduction in permeability and increased core loss through the construction of a small-scale potted IPT coil assembly, demonstrating a \SI{\sim 100}{\percent} increase in losses \cite{footeEncapsulationResidualStress2023}.
-This article aims to measure the effect of pressure on ferrite core loss at \SI{85}{\kilo\hertz} in a material independent and reproducable manner such that designers can better predict the impacts of encapsulation on the IPT system's behaviour. 
+This article aims to measure the effect of pressure on ferrite core loss at \SI{85}{\kilo\hertz} in a material independent and reproducable manner with standard core loss measurement techniques. that designers can better predict the impacts of encapsulation on the IPT system's behaviour. 
 
 \begin{figure}[t]
   \centering
@@ -70,14 +72,53 @@ This article aims to measure the effect of pressure on ferrite core loss at \SI{
   \caption{Typical structure of IPT pad for EV charging}
   \label{fig:padstructure}
 \end{figure}
+\begin{figure}[t]
+  \centering
+  \includegraphics{figures/simulatedpottingpadstresses.pdf}
+  \caption{FEA simulation of compressive stresses on ferrites during curing}
+  \label{fig:pottingstresses}
+\end{figure}
 
 \section{Characterisation of Ferrite Under Stress}
+Stress is a physical quantity that describes the forces acting on a material, simple uniaxial stress in the $z$ direction $\sigma_z$ can be calculated from, 
+\begin{equation}
+  \sigma_z = \frac{F_z}{A}
+\end{equation}
+Where $F_z$ is the compressive force acting in the $z$ direction and $A$ is the cross-sectional area normal to the $z$-axis. 
+Although the major stresses on ferrite tiles in IPT are shear (forces act to push layers of the material co-planar to each other), this article considers the material under compressive loading to simplify the measurement setup. 
+The von Mises equivalent stress is a scalar value that represents the effect of each of the individual stress components, principal and shear, the von Mises equivalent stress $\sigma_\text{eqv}$ is used in this article to allow for comparisons between the measured compressive stress and the predicted and measured shear stresses caused by the encapsulation material. 
+By convention, compressive stress is negative and tensile stress is positive, however for simplicity, in this paper, compressive stress is considered positive unless the von Mises equivalent stress is used. 
 
-The core loss $P_\text{core}$ is measured using a partial cancellation method which modifies the conventional two-winding method with a compensation capacitor $C_s$ in series to cancel the reactive voltage across the inductor under test $L_t$ \cite{houNewHighFrequencyCore2017}. 
-The equivalent circuit of this method is shown in \ref{fig:partialcancellationcircuit}.
+A hydraulic press was used to apply a compressive force to the surface of toroid. 
+However, in order to measure core loss in the hydraulic press, the toroid must be wound with two conductive windings. 
+Conventional litz wire was eschewed since the sensitive strands would fail under significant compressive loading. 
+\cref{fig:compressionholder} shows the designed holder. 
+
+
+\begin{figure}
+  \centering
+  \includegraphics{figures/compressionholder.pdf}
+  \caption{Exploded diagram of designed compression toroid windings}
+  \label{fig:compressionholder}
+\end{figure}
+
+\begin{comment}
+\begin{equation}
+  \sigma_\text{eqv} = \sqrt{
+    \frac{1}{2} \left[
+    \left( \sigma_{11} - \sigma_{22} \right) ^ 2 +
+    \left( \sigma_{22} - \sigma_{33} \right) ^ 2 + 
+    \left( \sigma_{33} - \sigma_{11} \right) ^ 2 \right] 
+    + \left( \sigma_{12}^2 + \sigma_{23}^2 + \sigma_{31}^2 \right)
+  }
+\end{equation}
+\end{comment}
+
+The core loss $P_\text{core}$ was then measured using a partial cancellation method which modifies the conventional two-winding method with a compensation capacitor $C_s$ in series to cancel the reactive voltage across the inductor under test $L_t$ \cite{houNewHighFrequencyCore2017}. 
+The equivalent circuit of this method is shown in \cref{fig:partialcancellationcircuit}.
 $C_s$ could be selected to completely cancel the reactive power in the system, but maintaining resonance for different operating conditions is challenging. 
 Instead, a partial cancellation method defines a voltage cancellation factor $k_v$, the ratio of the cancelled reactive voltage to the total reactive voltage, to only `partially' cancel the reactive component of $L_t$. 
-The core loss can then be found from measurements of the current flowing through the primary winding $i_L(t)$, the voltage on the secondary winding $v_2(t)$ and the voltage across the compensation capacitor $v_C(t)$. 
+The core loss can then be found from measurements of the current flowing through the primary winding $i_L(t)$, the voltage on the secondary winding $v_2(t)$ and the voltage across the compensation capacitor $v_C(t)$ from, 
 \begin{equation}
   P_\text{core} = f \int_0^T v_2(t)i_L(t)dt + \frac{f}{k_v} \int_0^T v_c(t)i_L(t) dt
 \end{equation}
@@ -90,12 +131,64 @@ The core loss can then be found from measurements of the current flowing through
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=3.5in, height=2in]{partialcancellationcircuit.pdf}
+  \includegraphics{figures/partialcancellationcircuit.pdf}
   \caption{Equivalent circuit of the partial cancellation method}
   \label{fig:partialcancellationcircuit}
 \end{figure}
+\begin{figure}[t]
+  \centering
+  \includegraphics{figures/experimentalsetup.pdf}
+  \caption{Experimental setup for core loss measurement under compressive stress}
+  \label{fig:experimentalsetup}
+\end{figure}
 
 \section{Verification of Core Loss Measurements}
+
+\begin{figure*}
+  \centering
+  \begin{subfigure}{\textwidth}
+    \begin{subfigure}{0.3\textwidth}
+      \centering
+      \includegraphics{figures/toroid.pdf}
+      \caption{UR5608}
+    \end{subfigure}~
+    \begin{subfigure}{0.3\textwidth}
+      \centering
+      \includegraphics{figures/toroid.pdf}
+      \caption{PX900D}
+    \end{subfigure}~
+    \begin{subfigure}{0.3\textwidth}
+      \centering
+      \includegraphics{figures/toroid.pdf}
+      \caption{ER2223}
+    \end{subfigure}
+
+    \begin{subfigure}{0.3\textwidth}
+      \centering
+      \includegraphics{figures/featoroid.pdf}
+      \caption{}
+    \end{subfigure}~
+    \begin{subfigure}{0.3\textwidth}
+      \centering
+      \includegraphics{figures/featoroid.pdf}
+      \caption{}
+    \end{subfigure}~
+    \begin{subfigure}{0.3\textwidth}
+      \centering
+      \includegraphics{figures/featoroid.pdf}
+      \caption{}
+    \end{subfigure}
+  \end{subfigure}
+  \caption{Experimental potted toroids and FEA structural simulations}
+  \label{fig:pottedtoroids}
+\end{figure*}
+
+\begin{table}
+  \caption{Mechanical properties of relevant materials}
+  \begin{tabular}{c|c|c|c}
+    Material & Manufacturer & $\alpha$ & $Y$ \\ \hline
+  \end{tabular}
+\end{table}
 
 \section{Conclusion}
 

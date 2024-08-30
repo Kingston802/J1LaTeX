@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="3.5in"
+   height="3in"
+   viewBox="0 0 88.899999 76.2"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   sodipodi:docname="experimentalsetup.svg"
+   inkscape:export-filename="experimentalsetup.pdf"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.30980392"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="3.0520833"
+     inkscape:cx="167.59045"
+     inkscape:cy="143.34471"
+     inkscape:window-width="1920"
+     inkscape:window-height="1057"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     showgrid="true">
+    <inkscape:grid
+       id="grid1"
+       units="in"
+       originx="0"
+       originy="0"
+       spacingx="0.254"
+       spacingy="0.254"
+       empcolor="#0099e5"
+       empopacity="0.30196078"
+       color="#0099e5"
+       opacity="0.14901961"
+       empspacing="5"
+       dotted="false"
+       gridanglex="30"
+       gridanglez="30"
+       visible="true" />
+  </sodipodi:namedview>
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="fill:#000000;stroke-width:0.254;stroke-linecap:round;stroke-linejoin:round"
+       d="M 36.830002,7.6200002 V 27.94 H 26.67 v 2.54 h 35.560002 v -2.54 h -11.43 V 7.6200002 Z"
+       id="path1" />
+    <path
+       style="fill:#000000;stroke-width:0.254;stroke-linecap:round;stroke-linejoin:round"
+       d="M 36.830002,64.770001 V 44.450002 H 26.67 v -2.54 h 35.560002 v 2.54 h -11.43 v 20.319999 z"
+       id="path1-1" />
+    <ellipse
+       style="fill:#77767b;stroke-width:0.254;stroke-linecap:round;stroke-linejoin:round"
+       id="path2"
+       cx="44.450001"
+       cy="35.848244"
+       rx="6.3500004"
+       ry="3.175" />
+    <ellipse
+       style="fill:#ffffff;stroke-width:0.254;stroke-linecap:round;stroke-linejoin:round"
+       id="path2-9"
+       cx="44.450001"
+       cy="35.824581"
+       rx="3.7041664"
+       ry="1.5345809" />
+  </g>
+</svg>
