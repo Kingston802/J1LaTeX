@@ -87,7 +87,7 @@ Stress is a physical quantity that describes the forces acting on a material, si
 \end{equation}
 Where $F_z$ is the compressive force acting in the $z$ direction and $A$ is the cross-sectional area normal to the $z$-axis. 
 Although the major stresses on ferrite tiles in IPT are shear (forces act to push layers of the material co-planar to each other), this article considers the material under compressive loading to simplify the measurement setup. 
-The von Mises equivalent stress is a scalar value that represents the effect of each of the individual stress components, principal and shear, the von Mises equivalent stress $\sigma_\text{eqv}$ is used in this article to allow for comparisons between the measured compressive stress and the predicted and measured shear stresses caused by the encapsulation material. 
+The von Mises equivalent stress is a scalar value that represents the effect of each of the individual stress components, principal and shear, the von Mises equivalent stress $\sigma_\text{eqv}$ is used in this article to allow for comparisons between the measured compressive stress and the predicted shear stresses caused by the encapsulation material. 
 By convention, compressive stress is negative and tensile stress is positive, however for simplicity, in this paper, compressive stress is considered positive unless the von Mises equivalent stress is used. 
 
 \begin{comment}
@@ -108,6 +108,7 @@ Conventional litz wire was eschewed since the sensitive strands would fail under
 Instead, a PCB was designed to form two robust windings which were than clamped to the toroid with M5 brass bolts. 
 To avoid creating nonuniform pressure points in the toroid by apply pressure to the bolts, the top and bottom of the holder were potted with Electrolube UR5608. 
 \cref{fig:compressionholder} shows an overview of the designed setup. 
+Note that the bolted connections between the two PCBs were tensioned with spring washers to prevent the electrical connection from failing under compressive loading. 
 
 \begin{figure}
   \centering
@@ -123,7 +124,7 @@ The equivalent stress distribution on the toroid is very uniform with a maximum 
 \begin{figure}
   \centering
   \includegraphics[width=3.5in, height=2in]{figures/holderfea.pdf}
-  \caption{FEA simulation of holder for \SI{96}{\kilo\newton} load}
+  \caption{FEA simulation of holder for \SI{200}{\kilo\newton} load}
   \label{fig:holderfea}
 \end{figure}
 \begin{table}
@@ -131,9 +132,9 @@ The equivalent stress distribution on the toroid is very uniform with a maximum 
   \caption{Toroid properties}
   \begin{tabular}{@{}llll@{}}
     \toprule
-    Material & Manufacturer & $\alpha$ $\times 10^{-6}$ & $Y$ \\ \midrule
-    N95 Ferrite & TDK & $10$ & \SI{119}{\giga\pascal} \\
-    Nylon & TDK & $10$ & \SI{119}{\giga\pascal} \\
+    Parameter & Value & Parameter & Value \\ \midrule
+    Material & TDK N95 Ferrite & $10$ & \SI{119}{\giga\pascal} \\
+    Inner Diameter & \SI{80}{\milli\meter}& $10$ & \SI{119}{\giga\pascal} \\
     FR4 PCB & TDK & $10$ & \SI{119}{\giga\pascal} \\
     UR5608 & TDK & $10$ & \SI{119}{\giga\pascal} \\
     PX900D & TDK & $10$ & \SI{119}{\giga\pascal} \\
@@ -266,7 +267,7 @@ Use the predicted equivalent stress in the ferrites, the Steinmetz coefficients 
 The FEA simulation predicted a core loss of \SI{0}{\watt}, an error of \SI{0}{\percent}. 
 \begin{figure}[t]
   %\includegraphics[width=3.5in, height=2in]{figures/padcoreloss}
-  \includegraphics[width=3.5in, height=2in]{figures/pottingstresses}
+  \includegraphics[width=3.5in, height=2in]{figures/simulatedpottingpadstresses.pdf}
   \caption{Predicted core loss distribution in DD pad with results of this article}
   \label{fig:padcoreloss}
 \end{figure}
@@ -275,6 +276,5 @@ The FEA simulation predicted a core loss of \SI{0}{\watt}, an error of \SI{0}{\p
 
 \section*{References}
 \printbibliography[heading=none]
-
 
 \end{document}
