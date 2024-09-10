@@ -1,0 +1,32 @@
+\begin{circuitikz}
+    \ctikzset{quadpoles style=inline}
+
+    % Voltage source
+    \draw (0,-2) to[sV, l=$V_\text{pa}$] (0,2);
+
+    % I_L
+    \draw (0,2) to[short, i^=$I_\text{L}$] (1,2);
+
+    % Winding resistance 
+    \draw (1,2) to[R, R=$R_{w}$] (3,2);
+
+    % Transformer
+    \draw (6,2) node[transformer core, anchor=A1] (T) {}
+      (T.A1) -- ++(-1.5,0) coordinate(TPa)
+      (T.A2) to[short] ++(-1.5,0) coordinate(MDa);
+
+    \draw (TPa) to[L, L=$L_\text{m}$] (MDa);
+    \draw (TPa) to[short] ++(-1.5,0) coordinate(TP);
+    \draw (MDa) to[short] ++(-1.5,0) coordinate(MD);
+    \draw (TP) to[R=$R_\text{core}$] (MD);
+
+    \draw (T.B1) -- ++(0.5, 0) coordinate(TPb)
+    to[open, v^=$V_2$, o-o] (TPb |- T.B2)
+    -- (T.B2);
+
+    % Capacitor
+    \draw (MD) to[C, a=$C_\text{s}$, v^=$V_C$] (3,-2);
+
+    \draw (3,-2) -- (0,-2);
+
+\end{circuitikz}

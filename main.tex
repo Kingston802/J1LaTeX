@@ -24,6 +24,11 @@ eprint=false
 \usepackage{microtype}
 \usepackage{comment}
 \usepackage{siunitx}
+
+% circuitikz
+\usepackage[straightvoltages, american, europeanresistors, cuteinductors, RPvoltages]{circuitikz}
+
+% cleverref, must be last
 \usepackage[capitalise]{cleveref}
 \begin{document}
 
@@ -160,7 +165,7 @@ The core loss can then be found from measurements of the current flowing through
 \begin{figure}[t]
   \begin{subfigure}{\columnwidth}
     \centering
-    \includegraphics{figures/partialcancellationcircuit.pdf}
+    \include{figures/partialcancellationcircuit.tex}
     \caption{}
     \label{fig:partialcancellationcircuit}
   \end{subfigure}
