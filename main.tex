@@ -194,23 +194,33 @@ Using this method core loss was calculated from measurements of the current flow
 \end{figure}
 
 \subsection{Results}
+
+\cref{fig:BPcurves} shows the measured $B$-$P$ curve for each of the loading scenarios of the cut toroid and a reference manufacturer provided toroid. 
+The unloaded cut toroid has slightly lower loss density than the manufacturer epoxied toroid, despite the stress-state from machining. 
+This shows that the machined toroid is suitable for these measurements. 
+
+The stress-dependent behaviour of ferrite has been shown to have a memory effect. 
+After the compressive loading is removed, the permeability of the material is decreased and the core loss increases. 
+In order to account for this, each sample is measured before, during and after loading. 
+The results presented in \cref{fig:BPcurves} and \cref{fig:corelossstress} are all under active loading, 
+
 \begin{figure}[t]
   \centering
   \begin{subfigure}{\columnwidth}
     \centering
     \includegraphics{figures/24-09-10_BP_curves.pdf}
     \caption{}
-    \label{fig:changingBH}
+    \label{fig:BPcurves}
   \end{subfigure}
   \begin{subfigure}{\columnwidth}
     \centering
-    \includegraphics[width=3.5in, height=2in]{figures/coreloss.pdf}
+    \includegraphics[width=3.5in, height=3in]{figures/coreloss.pdf}
     \caption{}
-    \label{fig:coreloss}
+    \label{fig:corelossstress}
   \end{subfigure}
-  \caption{(a) $B$-$H$ curves of the TDK N95 ferrite toroid under several levels of compressive loading $\overline{\sigma_\text{eqv}}$, (b) Core loss of TDK N95 ferrite toroid under several levels of compressive loading at \SI{100}{\milli\tesla}, \SI{85}{\kilo\hertz}}
+  \caption{(a) $B$-$H$ curves of the TDK N95 ferrite toroid under several levels of compressive loading $\overline{\sigma_\text{eqv}}$, (b) Core loss of TDK N95 ferrite toroid under several levels of compressive loading at \SI{\sim 5}{\milli\tesla}, \SI{\sim 25}{\milli\tesla}, \SI{\sim 50}{\milli\tesla} and \SI{\sim 100}{\milli\tesla}, \SI{85}{\kilo\hertz}}
 \end{figure}
-
+pressure
 \section{Verification of Core Loss Measurements}
 \label{sec:simulation}
 
