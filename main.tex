@@ -36,12 +36,12 @@ eprint=false
 \title{Effects of Compressive Stress on Ferrites in Inductive Power Transfer}
 
 \author{
-  Alexander K. Bailey, Jerry Sun\textsuperscript{\textdagger}, Seho Kim, Willsen Wijaya\textsuperscript{\textdagger}, Tom Allen\textsuperscript{\textdagger}, Grant A. Covic\\
+  Alexander K. Bailey, Jerry Sun\textsuperscript{\textdagger}, Wenting Zhang, Seho Kim, Willsen Wijaya\textsuperscript{\textdagger}, Tom Allen\textsuperscript{\textdagger}, Grant A. Covic\\
   \textit{Department of Electrical, Computer and Software Engineering}\\
   \textit{\textsuperscript{\textdagger}Centre for Advanced Materials Manufacturing and Design}\\
   \textit{University of Auckland}\\
   Auckland, New Zealand\\
-  \{alexander.bailey, jerry.sun, seho.kim, willsen.wijaya, tom.allen, ga.covic\}@auckland.ac.nz\\ 
+  \{alexander.bailey, jerry.sun, wenting.zhang, seho.kim, willsen.wijaya, tom.allen, ga.covic\}@auckland.ac.nz\\ 
 }
 \maketitle
 
@@ -65,7 +65,7 @@ The application of this technology to the charging of EVs could enable more reli
 
 At higher power levels, thermal issues limit power density. 
 In order to improve the thermal performance of the IPT magnetics, both the coil and core layer (shown in \cref{fig:padstructure}) are `potted' in an encapsulant material \cite{kneidlProcessingInfluencesResinbased2020}. 
-Typical encapsulant materials are resin-based with high toughness and thermal conductivity which improves the temperature profile uniformity and allows for a higher current density in the coil. 
+Typical encapsulant materials have high thermal conductivity which improves the temperature profile uniformity and allows for a higher current density in the coil. 
 However, several articles have noted the deterimental effect of encapsulant materials on the magnetic performance of ferrites. 
 
 Polycrystalline ferrites show decreased magnetic permeability and a widening $B$-$H$ curve under applied pressure due to the compressed topography of the domain walls \cite{leflochEffectPressureSoft1981}. 
@@ -81,7 +81,7 @@ This article aims to measure the effect of pressure on ferrite core loss at \SI{
 \begin{figure}[t]
   \centering
   \includegraphics{figures/simulatedpottingpadstresses.pdf}
-  \caption{FEA simulation of compressive stresses on ferrites during curing}
+  \caption{FEA simulation of ambient residual stress on ferrites at \SI{25}{\celsius} after curing potting material at \SI{60}{\celsius}}
   \label{fig:pottingstresses}
 \end{figure}
 
@@ -89,31 +89,25 @@ This article aims to measure the effect of pressure on ferrite core loss at \SI{
 Stress is a physical quantity that describes the forces acting on a material, simple uniaxial stress in the $z$ direction $\sigma_z$ can be calculated from, 
 \begin{equation}
   \sigma_z = \frac{F_z}{A}
+  \label{eqn:uniaxialstress}
 \end{equation}
 Where $F_z$ is the compressive force acting in the $z$ direction and $A$ is the cross-sectional area normal to the $z$-axis. 
 Although the major stresses on ferrite tiles in IPT are shear (forces act to push layers of the material co-planar to each other), this article considers the material under compressive loading to simplify the measurement setup. 
 The von Mises equivalent stress is a scalar value that represents the effect of each of the individual stress components, principal and shear, the von Mises equivalent stress $\sigma_\text{eqv}$ is used in this article to allow for comparisons between the measured compressive stress and the predicted shear stresses caused by the encapsulation material. 
 By convention, compressive stress is negative and tensile stress is positive, however for simplicity, in this paper, compressive stress is considered positive unless the von Mises equivalent stress is used. 
 
-\begin{comment}
-\begin{equation}
-  \sigma_\text{eqv} = \sqrt{
-    \frac{1}{2} \left[
-    \left( \sigma_{11} - \sigma_{22} \right) ^ 2 +
-    \left( \sigma_{22} - \sigma_{33} \right) ^ 2 + 
-    \left( \sigma_{33} - \sigma_{11} \right) ^ 2 \right] 
-    + \left( \sigma_{12}^2 + \sigma_{23}^2 + \sigma_{31}^2 \right)
-  }
-\end{equation}
-\end{comment}
+For ferrites in IPT magnetics, the thermal strain occurs in two ways.
+As shown in \cref{fig:pottingstresses}, when curing the potting material, residual stresses remain even after cooling down to room temperature. 
+In operation, when the litz, ferrite and Aluminium plate heat up, each material will expand. 
+When the coefficient of linear expansion $\alpha$ differs between two materials, the material exerts a force on the other. 
+The $\alpha$ of ferrite is significantly lower than that of the surrounding encapsulation material creating compressive stresses exceeding \SI{100}{\mega\pascal}. 
+
+\subsection{Methodology}
 
 An Instron 1180R universal testing machine was used to apply a compressive force of up to \SI{200}{\kilo\newton} to the surface of toroid. 
 However, in order to measure core loss in the hydraulic press, the toroid must be wound with two conductive windings. 
-Conventional litz wire was eschewed since the sensitive strands would fail under significant compressive loading. 
-Instead, a PCB was designed to form two robust windings which were than clamped to the toroid with M5 brass bolts. 
-To avoid creating nonuniform pressure points in the toroid by apply pressure to the bolts, the top and bottom of the holder were potted with Electrolube UR5608. 
+The designed fixture applies pressure to the surface of the toroid without impacting the litz wire.
 \cref{fig:compressionholder} shows an overview of the designed setup. 
-Note that the bolted connections between the two PCBs were tensioned with spring washers to prevent the electrical connection from failing under compressive loading. 
 
 \begin{figure}
   \centering
@@ -122,9 +116,19 @@ Note that the bolted connections between the two PCBs were tensioned with spring
   \label{fig:compressionholder}
 \end{figure}
 
-To verify the applied force was uniformly distributed across the toroid in the designed setup, a structural FEA simulation of the setup for each intended load was carried out. 
-\cref{fig:holderfea} shows the predicted loads for the maximum required weight, designed to apply a \SI{120}{\mega\pascal} compressive stress to the ferrite toroid.
-The equivalent stress distribution on the toroid is very uniform with a maximum difference across the surface of \textcolor{red}{\SI{2}{\mega\pascal}}.
+The designed fixture applies pressure to the surface where wire is not wound which creates a nonuniform pressure distribution on the surface. 
+To simulate how the applied force was distributed across the toroid in this setup, a structural FEA simulation of the setup for each intended load was carried out. 
+\cref{fig:holderfea} shows the predicted loads for \SI{100}{\kilo\newton} of compresive load, designed to apply a \SI{60}{\mega\pascal} compressive stress to the ferrite toroid.
+From this simulation, the applied force is applied only to the areas without windings, in these areas the equivalent stress is almost zero. 
+Hence, the equivalent stress in the toroid is not as predicted by \cref{eqn:uniaxialstress}. 
+
+In addition, uniaxial compression does not result in purely compressive stress due to Poisson's effect, compression in the $z$ direction causes expansion in the $x$ and $y$ directions.
+This creates tensile forces which causes brittle failure much before the ceramic material would fail under pure compression. 
+Based on measurements from the literature, ferrite has a Poisson's ratio of approximately 0.25 \cite{moinuddinElasticBehaviourMnZn1993}.
+This means that the applied stress deforms the ferrite toroid at approximately \SI{25}{\percent} the rate of compression in the $x$ and $y$ directions.
+
+The nonuniform compression and influence of Poisson's effect means the stress-state of the toroid is more complex than pure compression and hence the predicted mean equivalent stress $\overline{\sigma_\text{eqv}}$ is used based on FEA simulations as shown in \cref{fig:holderfea}. 
+The relevant material properties are given in \cref{sec:simulation}.
 
 \begin{figure}
   \centering
@@ -145,21 +149,32 @@ The equivalent stress distribution on the toroid is very uniform with a maximum 
     $N_\text{s}$ & 4 & $R_\text{w,s}$ & \textcolor{red}{\SI{119}{\milli\ohm}} \\
     \bottomrule
   \end{tabular}
+  \label{tab:toroidproperties}
 \end{table}
+
+Toroids of TDK N95 ferrite were cut from \SI{5}{\milli\meter} tiles using a water jet cutter and wound with litz on the primary and magnet wire on the secondary. 
+The toroid properties are given in \cref{tab:toroidproperties}.
+The machining of ferrite has also been shown to increase core losses due to the mechanical stress imposed on the surface during the cutting process \cite{neumayrOriginQuantificationIncreased2019}. 
+However, this effect is concentrated on the cut surface which for this case is the outer and inner surfaces, not in the mean flux path of the toroid hence the effects are expected to be minimal. 
+Regardless, the following experiments include a factory-epoxy-coated R34 toroid of TDK N95 ferrite as a reference. 
 
 For each mechanical loading scenario, the core loss $P_\text{core}$ was then measured using a partial cancellation method which modifies the conventional two-winding method with a compensation capacitor $C_s$ in series to cancel the reactive voltage across the inductor under test $L_t$ \cite{houNewHighFrequencyCore2017}. 
 The equivalent circuit of this method is shown in \cref{fig:partialcancellationcircuit}.
 $C_s$ could be selected to completely cancel the reactive power in the system, but maintaining resonance for different operating conditions is challenging. 
 Instead, a partial cancellation method defines a voltage cancellation factor $k_v$, the ratio of the cancelled reactive voltage to the total reactive voltage, to only `partially' cancel the reactive component of $L_t$. 
-The core loss can then be found from measurements of the current flowing through the primary winding $i_L(t)$, the voltage on the secondary winding $v_2(t)$ and the voltage across the compensation capacitor $v_C(t)$ from, 
+In order to determine the value of $k_v$, a phase pertubation is introduced into $i_L$, creating \cref{eqn:pcoreprime}, $k_v$ can then be calculated by combining \cref{eqn:pcore} and \cref{eqn:pcoreprime}.
+Using this method core loss was calculated from measurements of the current flowing through the primary winding $i_L(t)$, the voltage on the secondary winding $v_2(t)$ and the voltage across the compensation capacitor $v_C(t)$ by, 
 \begin{equation}
   P_\text{core} = f \int_0^T v_2(t)i_L(t)dt + \frac{f}{k_v} \int_0^T v_c(t)i_L(t) dt
+  \label{eqn:pcore}
 \end{equation}
 \begin{equation}
   P_\text{core}^{\prime} = f \int_0^T v_2(t)i_L^{\prime} (t)dt + \frac{f}{k_v} \int_0^T v_c(t)i_L^{\prime}(t) dt
+  \label{eqn:pcoreprime}
 \end{equation}
 \begin{equation}
   k_v = \frac{\int_0^T v_c(t)i_L(t)dt - \int_0^T v_ci_L^\prime(t)dt}{\int_0^T v_2(t) i_L^\prime(t) dt - \int_0^T v_2(t) i_L(t) dt}
+  \label{eqn:kv}
 \end{equation}
 
 \begin{figure}[t]
@@ -178,10 +193,12 @@ The core loss can then be found from measurements of the current flowing through
   \caption{(a) Equivalent circuit of the partial cancellation method, (b) Experimental setup for core loss measurement under compressive stress}
 \end{figure}
 
+\subsection{Results}
 \begin{figure}[t]
   \centering
   \begin{subfigure}{\columnwidth}
-    \includegraphics[width=3.5in, height=2in]{figures/changingBH.pdf}
+    \centering
+    \includegraphics{figures/24-09-10_BP_curves.pdf}
     \caption{}
     \label{fig:changingBH}
   \end{subfigure}
@@ -191,13 +208,14 @@ The core loss can then be found from measurements of the current flowing through
     \caption{}
     \label{fig:coreloss}
   \end{subfigure}
-  \caption{(a) $B$-$H$ curves of the TDK N95 ferrite toroid under several levels of compressive loading, (b) Core loss of TDK N95 ferrite toroid under several levels of compressive loading}
+  \caption{(a) $B$-$H$ curves of the TDK N95 ferrite toroid under several levels of compressive loading $\overline{\sigma_\text{eqv}}$, (b) Core loss of TDK N95 ferrite toroid under several levels of compressive loading at \SI{100}{\milli\tesla}, \SI{85}{\kilo\hertz}}
 \end{figure}
 
 \section{Verification of Core Loss Measurements}
+\label{sec:simulation}
 
 This section presents two experiments which verify the measured results from the previous section. 
-Firstly, three toroids of same TDK N95 ferrite were potted with different encapsulation materials and the measured core loss compared to FEA simulations using the measured data. 
+Firstly, three toroids of TDK N95 ferrite were potted with different encapsulation materials and the measured core loss compared to FEA simulations using the measured data. 
 Finally, the core loss of a constructed Double D IPT pad is compared before and after potting, and the core loss after potting is predicted using the measured results. 
 
 \subsection{Potted Toroid Measurement}
@@ -272,7 +290,7 @@ The FEA simulation predicted a core loss of \textcolor{red}{\SI{0}{\watt}}, an e
 \begin{figure}[t]
   %\includegraphics[width=3.5in, height=2in]{figures/padcoreloss}
   \includegraphics[width=3.5in, height=2in]{figures/simulatedpottingpadstresses.pdf}
-  \caption{Predicted core loss distribution in DD pad with results of this article}
+  \caption{Predicted core loss distribution in DD pad under \textcolor{red}{\SI{30}{\kilo\volt\ampere}} operation considering thermal and structural impacts on the ferrites}
   \label{fig:padcoreloss}
 \end{figure}
 
