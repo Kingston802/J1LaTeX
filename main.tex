@@ -160,7 +160,7 @@ The machining of ferrite has also been shown to increase core losses due to the 
 However, this effect is concentrated on the cut surface which for this case is the outer and inner surfaces, not in the mean flux path of the toroid hence the effects are expected to be minimal. 
 Regardless, the following experiments include a factory-epoxy-coated R34 toroid of TDK N95 ferrite as a reference. 
 
-For each mechanical loading scenario, the core loss $P_\text{core}$ was then measured using a partial cancellation method which modifies the conventional two-winding method with a compensation capacitor $C_s$ in series to cancel the reactive voltage across the inductor under test $L_t$ \cite{houNewHighFrequencyCore2017}. 
+For each mechanical loading scenario, the core loss $P_\text{core}$ was then measured using a partial cancellation method which modifies the conventional two-winding core loss measurement method with a compensation capacitor $C_s$ in series to cancel the reactive voltage across the inductor under test $L_t$ \cite{houNewHighFrequencyCore2017}. 
 The equivalent circuit of this method is shown in \cref{fig:partialcancellationcircuit}.
 $C_s$ could be selected to completely cancel the reactive power in the system, but maintaining resonance for different operating conditions is challenging. 
 Instead, a partial cancellation method defines a voltage cancellation factor $k_v$, the ratio of the cancelled reactive voltage to the total reactive voltage, to only `partially' cancel the reactive component of $L_t$. 
@@ -186,6 +186,9 @@ Using this method core loss was calculated from measurements of the current flow
     \caption{}
     \label{fig:partialcancellationcircuit}
   \end{subfigure}
+
+  \vspace{1em}
+
   \begin{subfigure}{\columnwidth}
     \centering
     \includegraphics{figures/experimentalsetup.pdf}
@@ -194,7 +197,7 @@ Using this method core loss was calculated from measurements of the current flow
   \end{subfigure}
   \caption{(a) Equivalent circuit of the partial cancellation method, (b) Experimental setup for core loss measurement under compressive stress}
 \end{figure}
-\subsection{Results}
+\subsection{Loaded Toroid Results}
 
 \cref{fig:BPcurves} shows the measured $B$-$P$ curve for each of the loading scenarios of the cut toroid and a reference manufacturer provided toroid. 
 The unloaded cut toroid has slightly lower loss density than the manufacturer epoxied toroid, despite the stress-state from machining. 
@@ -219,7 +222,20 @@ The results presented in \cref{fig:BPcurves} and \cref{fig:corelossstress} are a
     \caption{}
     \label{fig:corelossstress}
   \end{subfigure}
-  \caption{(a) $B$-$H$ curves of the TDK N95 ferrite toroid under several levels of compressive loading $\overline{\sigma_\text{eqv}}$, (b) Core loss of TDK N95 ferrite toroid under several levels of compressive loading at \SI{\sim 5}{\milli\tesla}, \SI{\sim 25}{\milli\tesla}, \SI{\sim 50}{\milli\tesla} and \SI{\sim 100}{\milli\tesla}, \SI{85}{\kilo\hertz}}
+
+  \begin{subfigure}{\columnwidth}
+    \centering
+    \includegraphics{figures/24-09-10_BP_curves.pdf}
+    \caption{}
+    \label{fig:BPcurves}
+  \end{subfigure}~
+  \begin{subfigure}{\columnwidth}
+    \centering
+    \includegraphics{figures/24-09-10_BP_curves.pdf}
+    \caption{}
+    \label{fig:corelossstress}
+  \end{subfigure}
+  \caption{(a) $B$-$P$ curves of the TDK N95 ferrite toroid under several levels of compressive loading $\overline{\sigma_\text{eqv}}$, (b) Core loss of TDK N95 ferrite toroid under several levels of compressive loading at \SI{\sim 5}{\milli\tesla}, \SI{\sim 25}{\milli\tesla}, \SI{\sim 50}{\milli\tesla} and \SI{\sim 100}{\milli\tesla}, \SI{85}{\kilo\hertz}, (c) Reduction in permeability after loading is removed, (d) Increasing core loss after loading is removed}
 \end{figure*}
 \begin{figure*}
   \centering
@@ -256,7 +272,7 @@ The results presented in \cref{fig:BPcurves} and \cref{fig:corelossstress} are a
       \caption{}
     \end{subfigure}
   \end{subfigure}
-  \caption{Experimental potted toroids and FEA structural simulations}
+  \caption{Experimental potted toroids for (a) UR5608, (b) PX900D and (c) ER2223 encapsulation materials and FEA structural analysis simulation results for each material, (d) UR5608, (e) PX900D and (f) ER2223 showing equivalent stress, $\overline{\sigma_\text{eqv}}$}
   \label{fig:pottedtoroids}
 \end{figure*}
 
@@ -270,10 +286,40 @@ Finally, the core loss of a constructed Double D IPT pad is compared before and 
 
 \subsection{Potted Toroid Measurement}
 
-In order to verify the accuracy of the structural FEA simulations and better understand the influence of the encapsulation material, three toroids of the same dimensions as described in the previous section were potted with different materials.
-The potted toroids and the FEA predicted equivalent stress is shown in \cref{fig:pottedtoroids}.
+In order to verify the accuracy of the structural FEA simulations and better understand the influence of the encapsulation material, three toroids of the same dimensions as described in the previous section were potted with three different materials.
+The different materials were selected to encompass the three primary encapsulation material types: resin epoxy, polyurethane and silicone. 
+Each toroid was prepared by the manufacturer suggested method, cured at a raised temperature $T_\text{cure}$ (\textcolor{red}{\SIrange{60}{125}{\celsius}}) for several hours. 
+The toroid is potted in a mould of constant offset such that there is \textcolor{red}{\SI{10}{\milli\meter}} of potting material normal to each surface of the toroid. 
+To prevent supports from impacting the results, each mould is partially filled and cured before placing the toroid at the appropriate height. 
+
+The potted toroids and the FEA predicted equivalent stress due to the potting process is shown in \cref{fig:pottedtoroids}.
 The \textcolor{red}{harder encapsulation materials show higher residual stresses and hence higher core loss}. 
+The silicone potting material from electrolube showed the lowest increase in 
+For improved impact resistance, silicone potting materials may be preferable due to their low hardness reducing the likelihood of fracturing the ferrite core material. 
+On the other hand, harder potting materials such as the polyurethane-based materials may be preferable to protect the Litz wire. 
 However, the designer must trade off the desired mechanical behaviour of the encapsulation material and the effect of the encapsulation material on the system core losses. 
+
+\section{Multiphysics Modelling of Potted IPT Pad}
+\label{sec:modelling}
+
+Ferrite losses are non-linearly related to temperature and, as shown previously, compressive stress. 
+Due to the thermal expansion of the constituent materials, both the thermal and mechanical physics are heavily coupled, this expansion creates compressive stresses which effect the electromagnetic (EM) simulation. 
+In order to predict the core loss of potted IPT pads operating at a thermal steady-state, this article proposes a multiphysics simulation methodology presented in \cref{fig:simulationflowchart}. 
+All FEA simulations are conducting using Ansys Workbench, Ansys Maxwell for EM results, Ansys Mechanical for the stress-strain results and Ansys Steady-state Thermal for temperature predition. 
+
+The residual stresses are calculated by FEA simulation assuming a constant body temperature of $T_\text{cure}$ cooling to ambient (\SI{25}{\celsius}). 
+The results of this simulation are shown in \cref{fig:pottingstresses}. 
+This simulation models only the ferrites, casing and lower potting region shown in \cref{fig:padstructure} since this design seperates the casing in to two cavities and the Litz wire was shown to have minimal effect on the residual stresses in preliminary simulations. 
+The obtained residual stress-strain distribution is then used as an initial condition for the operational stress-strain simulation. 
+
+The EM simulation is set up for the designed \textcolor{red}{\SI{30}{\kilo\volt\ampere}} with only a single pad to reduce modelling complexity. 
+However, the addition of a second pad should not affect the results of these simulations assuming that the airgap is large enough to prevent thermal interaction between the two sets of magnetics, which is typical for EV charging applications.
+
+\begin{figure}
+  \include{figures/flowchart.tex}
+  \caption{Flowchart of the multiphysics simulation including residual stress initial conditions and induced thermal stresses during operation}
+  \label{fig:simulationflowchart}
+\end{figure}
 
 \begin{table}
   \centering
@@ -282,8 +328,6 @@ However, the designer must trade off the desired mechanical behaviour of the enc
     \toprule
     Material & Manufacturer & $\alpha$ $\times 10^{-6}$ & $Y$ \\ \midrule
     N95 Ferrite & TDK & $10$ & \SI{119}{\giga\pascal} \\
-    Nylon & TDK & $10$ & \SI{119}{\giga\pascal} \\
-    FR4 PCB & TDK & $10$ & \SI{119}{\giga\pascal} \\
     UR5608 & TDK & $10$ & \SI{119}{\giga\pascal} \\
     PX900D & TDK & $10$ & \SI{119}{\giga\pascal} \\
     ER2223 & TDK & $10$ & \SI{119}{\giga\pascal} \\
@@ -291,13 +335,15 @@ However, the designer must trade off the desired mechanical behaviour of the enc
   \end{tabular}
 \end{table}
 
-\subsection{Core Loss Prediction of Potted IPT Pad}
+\subsection{Experimental Verification}
+
 The core loss of a Double D IPT pad designed for \textcolor{red}{\SI{11}{\kilo\watt}} was measured using the stepped resonance method described in \cite{kalraPowerLossMeasurement2020}.
 At rated current, the unpotted pad showed a total loss of \textcolor{red}{\SI{0}{\watt}}, with \textcolor{red}{\SI{0}{\watt}} of core loss.
 When potted in two pours with UR5608, the total loss increased to \textcolor{red}{\SI{0}{\watt}} with \textcolor{red}{\SI{0}{\watt}} of core loss. 
-\cref{fig:pottingstresses} shows an FEA simulation of the stress induced by this potting process. 
-Use the predicted equivalent stress in the ferrites, the Steinmetz coefficients for each ferrite tile were adjusted accordingly and the core loss distribution shown in \cref{fig:padcoreloss} was predicted. 
+\cref{fig:pottingstresses} shows an FEA simulation of the residual stresses induced by this potting process. 
+Using the predicted equivalent stress in the ferrites, the Steinmetz coefficients for each ferrite tile were adjusted accordingly and the core loss distribution shown in \cref{fig:padcoreloss} was predicted. 
 The FEA simulation predicted a core loss of \textcolor{red}{\SI{0}{\watt}}, an error of \textcolor{red}{\SI{0}{\percent}}. 
+
 \begin{figure}[t]
   %\includegraphics[width=3.5in, height=2in]{figures/padcoreloss}
   \includegraphics[width=3.5in, height=2in]{figures/simulatedpottingpadstresses.pdf}
