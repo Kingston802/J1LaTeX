@@ -72,19 +72,13 @@ However, several articles have noted the deterimental effect of encapsulant mate
 
 Polycrystalline ferrites show decreased magnetic permeability and a widening $B$-$H$ curve under applied pressure due to the compressed topography of the domain walls \cite{leflochEffectPressureSoft1981}. 
 Foote et. al verified the reduction in permeability and increased core loss through the construction of a small-scale potted IPT coil assembly, demonstrating a \SI{\sim 100}{\percent} increase in losses \cite{footeEncapsulationResidualStress2023}.
-This article aims to measure the effect of pressure on ferrite core loss at \SI{85}{\kilo\hertz} in a material independent and reproducable manner with standard core loss measurement techniques. that designers can better predict the impacts of encapsulation on the IPT system's behaviour. 
+This article aims to measure the effect of pressure on ferrite core loss at \SI{85}{\kilo\hertz} in a geometry independent and reproducable manner with standard core loss measurement techniques. Such that designers can better predict the impacts of encapsulation on the IPT system's behaviour. 
 
 \begin{figure}[t]
   \centering
   \includegraphics{figures/padstructure.pdf}
   \caption{Typical structure of IPT pad for EV charging}
   \label{fig:padstructure}
-\end{figure}
-\begin{figure}[t]
-  \centering
-  \includegraphics{figures/simulatedpottingpadstresses.pdf}
-  \caption{FEA simulation of ambient residual stress on ferrites at \SI{25}{\celsius} after curing potting material at \SI{60}{\celsius}}
-  \label{fig:pottingstresses}
 \end{figure}
 
 \section{Characterisation of Ferrite Under Stress}
@@ -99,10 +93,12 @@ The von Mises equivalent stress is a scalar value that represents the effect of 
 By convention, compressive stress is negative and tensile stress is positive, however for simplicity, in this paper, compressive stress is considered positive unless the von Mises equivalent stress is used. 
 
 For ferrites in IPT magnetics, the thermal strain occurs in two ways.
-As shown in \cref{fig:pottingstresses}, when curing the potting material at a raised curing temperature $T_\text{cure}$, residual stresses remain even after cooling down to room temperature. 
 In operation, when the litz, ferrite and potting material heat up, each material will expand. 
 When the coefficient of linear expansion $\alpha$ differs between two materials, each material exerts a force on the other. 
 The $\alpha$ of ferrite is significantly lower than that of the surrounding encapsulation material creating compressive stresses on the ferrites which exceeds \SI{100}{\mega\pascal}. 
+Hence during curing at a raised temperature $T_\text{cure}$, the thermal expansion of each material will create stress on the ferrite tiles. 
+However, this thermal expansion is approximately linearly elastic i.e. it returns back to the unstressed state after cooling. 
+The residual stress demonstrated in literature is then due to the chemical shrinkage of the encapsulation material. 
 
 \subsection{Methodology}
 
@@ -206,7 +202,7 @@ This shows that the machined toroid is suitable for these measurements.
 The stress-dependent behaviour of ferrite has been shown to have a memory effect. 
 After the compressive loading is removed, the permeability of the material is decreased and the core loss increases. 
 In order to account for this, each sample is measured before, during and after loading. 
-The results presented in \cref{fig:BPcurves} and \cref{fig:corelossstress} are all under active loading, 
+The results presented in \cref{fig:BPcurves} and \cref{fig:corelossstress} are all under active loading, while \cref{fig:reductionpermeability} shows the change in relative permeability $\mu_r$ after the loading is removed compared to before the first loading scenario. 
 
 \begin{figure*}[t]
   \centering
@@ -227,13 +223,13 @@ The results presented in \cref{fig:BPcurves} and \cref{fig:corelossstress} are a
     \centering
     \includegraphics{figures/24-09-10_BP_curves.pdf}
     \caption{}
-    \label{fig:BPcurves}
+    \label{fig:reductionpermeability}
   \end{subfigure}~
   \begin{subfigure}{\columnwidth}
     \centering
     \includegraphics{figures/24-09-10_BP_curves.pdf}
     \caption{}
-    \label{fig:corelossstress}
+    \label{fig:increasingcoreloss}
   \end{subfigure}
   \caption{(a) $B$-$P$ curves of the TDK N95 ferrite toroid under several levels of compressive loading $\overline{\sigma_\text{eqv}}$, (b) Core loss of TDK N95 ferrite toroid under several levels of compressive loading at \SI{\sim 5}{\milli\tesla}, \SI{\sim 25}{\milli\tesla}, \SI{\sim 50}{\milli\tesla} and \SI{\sim 100}{\milli\tesla}, \SI{85}{\kilo\hertz}, (c) Reduction in permeability after loading is removed, (d) Increasing core loss after loading is removed}
 \end{figure*}
@@ -280,21 +276,21 @@ The results presented in \cref{fig:BPcurves} and \cref{fig:corelossstress} are a
 \section{Verification of Core Loss Measurements}
 \label{sec:simulation}
 
-This section presents two experiments which verify the measured results from the previous section. 
-Firstly, three toroids of TDK N95 ferrite were potted with different encapsulation materials and the measured core loss is compared to the unpotted material. 
-Finally, the core loss of a constructed Double D IPT pad is compared before and after potting, and the core loss after potting is predicted using the measured results. 
-
-\subsection{Potted Toroid Measurement}
-
 In order to verify the accuracy of the structural FEA simulations and better understand the influence of the encapsulation material, three toroids of the same dimensions as described in the previous section were potted with three different materials.
 The different materials were selected to encompass the three primary encapsulation material types: resin epoxy, polyurethane and silicone. 
 Each toroid was prepared by the manufacturer suggested method, cured at a raised temperature $T_\text{cure}$ (\textcolor{red}{\SIrange{60}{125}{\celsius}}) for several hours. 
 The toroid is potted in a mould of constant offset such that there is \textcolor{red}{\SI{10}{\milli\meter}} of potting material normal to each surface of the toroid. 
 To prevent supports from impacting the results, each mould is partially filled and cured before placing the toroid at the appropriate height. 
+The remaining material is then poured on top and cured for the remaining time. 
 
-The potted toroids and the FEA predicted equivalent stress due to the potting process is shown in \cref{fig:pottedtoroids}.
+FEA structural simulations of each toroid were performed to predict the stress due to cure shrinkage. 
+The cure shrinkage is modelled as a fixed deformation applied to each face of the potting material. 
+The deformation is calculated based on the manufacturer provided percentage volumetric cure shrinkage $S$, assuming a purely isotropic shrinkage.
+For the three materials considered here, 
+
+The potted toroids and the FEA predicted equivalent stress due to the potting cure shrinkage is shown in \cref{fig:pottedtoroids}.
 The \textcolor{red}{harder encapsulation materials show higher residual stresses and hence higher core loss}. 
-The silicone potting material from electrolube showed the lowest increase in 
+\textcolor{red}{The silicone potting material from electrolube showed the lowest increase in core loss}.
 For improved impact resistance, silicone potting materials may be preferable due to their low hardness reducing the likelihood of fracturing the ferrite core material. 
 On the other hand, harder potting materials such as the polyurethane-based materials may be preferable to protect the Litz wire. 
 However, the designer must trade off the desired mechanical behaviour of the encapsulation material and the effect of the encapsulation material on the system core losses. 
@@ -307,13 +303,22 @@ Due to the thermal expansion of the constituent materials, both the thermal and 
 In order to predict the core loss of potted IPT pads operating at a thermal steady-state, this article proposes a multiphysics simulation methodology presented in \cref{fig:simulationflowchart}. 
 All FEA simulations are conducting using Ansys Workbench, Ansys Maxwell for EM results, Ansys Mechanical for the stress-strain results and Ansys Steady-state Thermal for temperature predition. 
 
-The residual stresses are calculated by FEA simulation assuming a constant body temperature of $T_\text{cure}$ cooling to ambient (\SI{25}{\celsius}). 
+\begin{figure}[t]
+  \centering
+  \includegraphics{figures/simulatedpottingpadstresses.pdf}
+  \caption{FEA simulation of ambient residual stress due to cure shrinkage on ferrite tiles at \SI{25}{\celsius} after curing}
+  \label{fig:pottingstresses}
+\end{figure}
+
+The residual stresses are calculated by structural FEA simulation assuming a constant body temperature of $T_\text{cure}$ cooling to ambient (\SI{25}{\celsius}). 
+The cure shrinkage is accounted for by modelling a displacement of the potting material based on the manufacturer stated cure shrinkage, i.e. for cure shrinkage of \SI{1}{\percent} a fixed deformation is applied to each face such that the total volume of the body reduces by \SI{1}{\percent}.
 The results of this simulation are shown in \cref{fig:pottingstresses}. 
-This simulation models only the ferrites, casing and lower potting region shown in \cref{fig:padstructure} since this design seperates the casing in to two cavities and the Litz wire was shown to have minimal effect on the residual stresses in preliminary simulations. 
-The obtained residual stress-strain distribution is then used as an initial condition for the operational stress-strain simulation. 
+This simulation models only the ferrites, casing and lower potting region shown in \cref{fig:padstructure} since the designed magnetics separates the casing in to two cavities and the Litz wire was shown to have minimal effect on the residual stresses in preliminary simulations. 
+The obtained residual stress-strain distribution is then used as an initial condition for the operational stress-strain simulation which models the full pad. 
 
 The EM simulation is set up for the designed \textcolor{red}{\SI{30}{\kilo\volt\ampere}} with only a single pad to reduce modelling complexity. 
 However, the addition of a second pad should not affect the results of these simulations assuming that the airgap is large enough to prevent thermal interaction between the two sets of magnetics, which is typical for EV charging applications.
+
 
 \begin{figure}
   \include{figures/flowchart.tex}
@@ -328,6 +333,7 @@ However, the addition of a second pad should not affect the results of these sim
     \toprule
     Material & Manufacturer & $\alpha$ $\times 10^{-6}$ & $Y$ \\ \midrule
     N95 Ferrite & TDK & $10$ & \SI{119}{\giga\pascal} \\
+    5083 Aluminium & TDK & $10$ & \SI{119}{\giga\pascal} \\
     UR5608 & TDK & $10$ & \SI{119}{\giga\pascal} \\
     PX900D & TDK & $10$ & \SI{119}{\giga\pascal} \\
     ER2223 & TDK & $10$ & \SI{119}{\giga\pascal} \\
@@ -359,6 +365,8 @@ The thermal strain due to residual stresses from the encapsulation process and h
 Three ferrite toroids were potted with different materials and the effect on core loss is measured, the materials with \textcolor{red}{higher coefficient of thermal expansion} showed the greatest increase in core loss. 
 Finally, a practical potted DD pad shows a \textcolor{red}{\SI{100}{\percent}} increase in core loss after encapsulation in a polyurethane material. 
 Multiphysics simulations which include the mechanical-thermal impacts of the encapsulation material on the magnetic losses matched the DD pad within \textcolor{red}{\SI{20}{\percent}}. 
+These results show that the choice of encapsulation material has a significant impact on the thermal and structural behaviour of the IPT pad. 
+Designers must trade off electrical, thermal and structural performance to choose a material suitable for the desired application.
 
 \section*{References}
 \printbibliography[heading=none]
