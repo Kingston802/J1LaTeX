@@ -24,24 +24,25 @@ eprint=false
 \usepackage{microtype}
 \usepackage{comment}
 \usepackage{siunitx}
+\usepackage{lipsum}
 
 % circuitikz
 \usepackage[straightvoltages, american, europeanresistors, cuteinductors, RPvoltages]{circuitikz}
 
 % cleverref, must be last
 \usepackage[capitalise]{cleveref}
+
 \begin{document}
 
-
-\title{Effects of Compressive Stress on Ferrites in Inductive Power Transfer}
+\title{Influence of Encapsulation on Core Loss of Ferrites in Inductive Power Transfer}
 
 \author{
-  Alexander K. Bailey, Jerry Sun\textsuperscript{\textdagger}, Wenting Zhang, Seho Kim, Willsen Wijaya\textsuperscript{\textdagger}, Tom Allen\textsuperscript{\textdagger}, Grant A. Covic\\
+  Alexander K. Bailey, Jerry Sun\textsuperscript{\textdagger}, Seho Kim, Willsen Wijaya\textsuperscript{\textdagger}, Tom Allen\textsuperscript{\textdagger}, Grant A. Covic\\
   \textit{Department of Electrical, Computer and Software Engineering}\\
   \textit{\textsuperscript{\textdagger}Centre for Advanced Materials Manufacturing and Design}\\
   \textit{University of Auckland}\\
   Auckland, New Zealand\\
-  \{alexander.bailey, jerry.sun, wenting.zhang, seho.kim, willsen.wijaya, tom.allen, ga.covic\}@auckland.ac.nz\\ 
+  \{alexander.bailey, jerry.sun, seho.kim, willsen.wijaya, tom.allen, ga.covic\}@auckland.ac.nz\\ 
 }
 \maketitle
 \thispagestyle{plain}
@@ -49,9 +50,10 @@ eprint=false
 
 \begin{abstract}
   Inductive power transfer (IPT) magnetics are often `potted' with an encapsulant material to improve thermal performance.
-  The difference in thermal expansion between common epoxy based encapsulant materials and ceramic ferrites creates a compressive load which permanently reduces the magnetic performance of the core material. 
-  This article measures how the core loss of Mn--Zn ferrites changes with an applied compressive stress of \SIrange{10}{100}{\mega\pascal} at \SI{85}{\kilo\hertz}. 
-  The measured data is used to predict how core losses change in a practical potted IPT pad, demonstrating a \textcolor{red}{\SI{140}{\percent}} increase in core loss. 
+  The curing process of common thermoset encapsulant materials creates a mechanical load which permanently reduces the magnetic performance of the core material. 
+  This article measures how the core loss of Mn--Zn ferrites changes with an applied compressive stress of \textcolor{red}{\SIrange{10}{100}{\mega\pascal}} at \SI{85}{\kilo\hertz}. 
+  At maximum load, the core loss increases by 
+  The measured data informs a multi-physics simulation model which predicts the increase in losses in a practical potted IPT pad with \textcolor{red}{\SI{10}{\percent}} error, demonstrating a \textcolor{red}{\SI{140}{\percent}} increase in core loss. 
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -81,30 +83,10 @@ This article aims to measure the effect of pressure on ferrite core loss at \SI{
   \label{fig:padstructure}
 \end{figure}
 
-\section{Characterisation of Ferrite Under Stress}
-Stress is a physical quantity that describes the forces acting on a material, simple uniaxial stress in the $z$ direction $\sigma_z$ can be calculated from, 
-\begin{equation}
-  \sigma_z = \frac{F_z}{A}
-  \label{eqn:uniaxialstress}
-\end{equation}
-Where $F_z$ is the compressive force acting in the $z$ direction and $A$ is the cross-sectional area normal to the $z$-axis. 
-Although the major stresses on ferrite tiles in IPT are shear (forces act to push layers of the material co-planar to each other), this article considers the material under compressive loading to simplify the measurement setup. 
-The von Mises equivalent stress is a scalar value that represents the effect of each of the individual stress components, principal and shear, the von Mises equivalent stress $\sigma_\text{eqv}$ is used in this article to allow for comparisons between the measured compressive stress and the predicted shear stresses caused by the encapsulation material. 
-By convention, compressive stress is negative and tensile stress is positive, however for simplicity, in this paper, compressive stress is considered positive unless the von Mises equivalent stress is used. 
-
-For ferrites in IPT magnetics, the thermal strain occurs in two ways.
-In operation, when the litz, ferrite and potting material heat up, each material will expand. 
-When the coefficient of linear expansion $\alpha$ differs between two materials, each material exerts a force on the other. 
-The $\alpha$ of ferrite is significantly lower than that of the surrounding encapsulation material creating compressive stresses on the ferrites which exceeds \SI{100}{\mega\pascal}. 
-Hence during curing at a raised temperature $T_\text{cure}$, the thermal expansion of each material will create stress on the ferrite tiles. 
-However, this thermal expansion is approximately linearly elastic i.e. it returns back to the unstressed state after cooling. 
-The residual stress demonstrated in literature is then due to the chemical shrinkage of the encapsulation material. 
+\section{Characterisation of Ferrite Under Load}
 
 \subsection{Methodology}
 
-An Instron 1180R universal testing machine was used to apply a compressive force of up to \SI{200}{\kilo\newton} to the surface of toroid. 
-However, in order to measure core loss in the hydraulic press, the toroid must be wound with two conductive windings. 
-The designed fixture applies pressure to the surface of the toroid without impacting the litz wire.
 \cref{fig:compressionholder} shows an overview of the designed setup. 
 
 \begin{figure}
@@ -114,26 +96,6 @@ The designed fixture applies pressure to the surface of the toroid without impac
   \label{fig:compressionholder}
 \end{figure}
 
-The designed fixture applies pressure to the surface where wire is not wound which creates a nonuniform pressure distribution on the surface. 
-To simulate how the applied force was distributed across the toroid in this setup, a structural FEA simulation of the setup for each intended load was carried out. 
-\cref{fig:holderfea} shows the predicted loads for \SI{100}{\kilo\newton} of compresive load, designed to apply a \SI{60}{\mega\pascal} compressive stress to the ferrite toroid.
-From this simulation, the applied force is applied only to the areas without windings, in these areas the equivalent stress is almost zero. 
-Hence, the equivalent stress in the toroid is not as predicted by \cref{eqn:uniaxialstress}. 
-
-In addition, uniaxial compression does not result in purely compressive stress due to Poisson's effect, compression in the $z$ direction causes expansion in the $x$ and $y$ directions.
-This creates tensile forces which causes brittle failure much before the ceramic material would fail under pure compression. 
-Based on measurements from the literature, ferrite has a Poisson's ratio of approximately 0.25 \cite{moinuddinElasticBehaviourMnZn1993}.
-This means that the applied stress deforms the ferrite toroid at approximately \SI{25}{\percent} the rate of compression in the $x$ and $y$ directions.
-
-The nonuniform compression and influence of Poisson's effect means the stress-state of the toroid is more complex than pure compression and hence the predicted mean equivalent stress $\overline{\sigma_\text{eqv}}$ is used based on FEA simulations as shown in \cref{fig:holderfea}. 
-The relevant material properties are given in \cref{sec:simulation}.
-
-\begin{figure}
-  \centering
-  \includegraphics{figures/holderfea.pdf}
-  \caption{FEA of toroid under \SI{100}{\kilo\newton} compressive load}
-  \label{fig:holderfea}
-\end{figure}
 \begin{table}
   \centering
   \caption{Toroid properties}
@@ -149,6 +111,35 @@ The relevant material properties are given in \cref{sec:simulation}.
   \end{tabular}
   \label{tab:toroidproperties}
 \end{table}
+\begin{figure*}[t]
+  \centering
+  \begin{subfigure}{\columnwidth}
+    \centering
+    \includegraphics{figures/24-09-10_BP_curves.pdf}
+    \caption{}
+    \label{fig:BPcurves}
+  \end{subfigure}~
+  \begin{subfigure}{\columnwidth}
+    \centering
+    \includegraphics{figures/24-09-10_BP_curves.pdf}
+    \caption{}
+    \label{fig:corelossstress}
+  \end{subfigure}
+
+  \begin{subfigure}{\columnwidth}
+    \centering
+    \includegraphics{figures/24-09-10_BP_curves.pdf}
+    \caption{}
+    \label{fig:BPcurves}
+  \end{subfigure}~
+  \begin{subfigure}{\columnwidth}
+    \centering
+    \includegraphics{figures/24-09-10_BP_curves.pdf}
+    \caption{}
+    \label{fig:corelossstress}
+  \end{subfigure}
+  \caption{(a) $B$-$P$ curves of the TDK N95 ferrite toroid under several levels of compressive loading $\overline{\sigma_\text{eqv}}$, (b) Core loss of TDK N95 ferrite toroid under several levels of compressive loading at \SI{\sim 5}{\milli\tesla}, \SI{\sim 25}{\milli\tesla}, \SI{\sim 50}{\milli\tesla} and \SI{\sim 100}{\milli\tesla}, \SI{85}{\kilo\hertz}, (c) Reduction in permeability after loading is removed, (d) Increasing core loss after loading is removed}
+\end{figure*}
 
 Toroids of TDK N95 ferrite were cut from \SI{5}{\milli\meter} tiles using a water jet cutter and wound with litz on the primary and magnet wire on the secondary. 
 The toroid properties are given in \cref{tab:toroidproperties}.
@@ -204,96 +195,7 @@ After the compressive loading is removed, the permeability of the material is de
 In order to account for this, each sample is measured before, during and after loading. 
 The results presented in \cref{fig:BPcurves} and \cref{fig:corelossstress} are all under active loading, while \cref{fig:reductionpermeability} shows the change in relative permeability $\mu_r$ after the loading is removed compared to before the first loading scenario. 
 
-\begin{figure*}[t]
-  \centering
-  \begin{subfigure}{\columnwidth}
-    \centering
-    \includegraphics{figures/24-09-10_BP_curves.pdf}
-    \caption{}
-    \label{fig:BPcurves}
-  \end{subfigure}~
-  \begin{subfigure}{\columnwidth}
-    \centering
-    \includegraphics{figures/24-09-10_BP_curves.pdf}
-    \caption{}
-    \label{fig:corelossstress}
-  \end{subfigure}
-
-  \begin{subfigure}{\columnwidth}
-    \centering
-    \includegraphics{figures/24-09-10_BP_curves.pdf}
-    \caption{}
-    \label{fig:reductionpermeability}
-  \end{subfigure}~
-  \begin{subfigure}{\columnwidth}
-    \centering
-    \includegraphics{figures/24-09-10_BP_curves.pdf}
-    \caption{}
-    \label{fig:increasingcoreloss}
-  \end{subfigure}
-  \caption{(a) $B$-$P$ curves of the TDK N95 ferrite toroid under several levels of compressive loading $\overline{\sigma_\text{eqv}}$, (b) Core loss of TDK N95 ferrite toroid under several levels of compressive loading at \SI{\sim 5}{\milli\tesla}, \SI{\sim 25}{\milli\tesla}, \SI{\sim 50}{\milli\tesla} and \SI{\sim 100}{\milli\tesla}, \SI{85}{\kilo\hertz}, (c) Reduction in permeability after loading is removed, (d) Increasing core loss after loading is removed}
-\end{figure*}
-\begin{figure*}
-  \centering
-  \begin{subfigure}{\textwidth}
-    \begin{subfigure}{0.3\textwidth}
-      \centering
-      \includegraphics{figures/toroid.pdf}
-      \caption{UR5608}
-    \end{subfigure}~
-    \begin{subfigure}{0.3\textwidth}
-      \centering
-      \includegraphics{figures/toroid.pdf}
-      \caption{PX900D}
-    \end{subfigure}~
-    \begin{subfigure}{0.3\textwidth}
-      \centering
-      \includegraphics{figures/toroid.pdf}
-      \caption{ER2223}
-    \end{subfigure}
-
-    \begin{subfigure}{0.3\textwidth}
-      \centering
-      \includegraphics{figures/featoroid.pdf}
-      \caption{}
-    \end{subfigure}~
-    \begin{subfigure}{0.3\textwidth}
-      \centering
-      \includegraphics{figures/featoroid.pdf}
-      \caption{}
-    \end{subfigure}~
-    \begin{subfigure}{0.3\textwidth}
-      \centering
-      \includegraphics{figures/featoroid.pdf}
-      \caption{}
-    \end{subfigure}
-  \end{subfigure}
-  \caption{Experimental potted toroids for (a) UR5608, (b) PX900D and (c) ER2223 encapsulation materials and FEA structural analysis simulation results for each material, (d) UR5608, (e) PX900D and (f) ER2223 showing equivalent stress, $\overline{\sigma_\text{eqv}}$}
-  \label{fig:pottedtoroids}
-\end{figure*}
-
-
-\section{Verification of Core Loss Measurements}
-\label{sec:simulation}
-
-In order to verify the accuracy of the structural FEA simulations and better understand the influence of the encapsulation material, three toroids of the same dimensions as described in the previous section were potted with three different materials.
-The different materials were selected to encompass the three primary encapsulation material types: resin epoxy, polyurethane and silicone. 
-Each toroid was prepared by the manufacturer suggested method, cured at a raised temperature $T_\text{cure}$ (\textcolor{red}{\SIrange{60}{125}{\celsius}}) for several hours. 
-The toroid is potted in a mould of constant offset such that there is \textcolor{red}{\SI{10}{\milli\meter}} of potting material normal to each surface of the toroid. 
-To prevent supports from impacting the results, each mould is partially filled and cured before placing the toroid at the appropriate height. 
-The remaining material is then poured on top and cured for the remaining time. 
-
-FEA structural simulations of each toroid were performed to predict the stress due to cure shrinkage. 
-The cure shrinkage is modelled as a fixed deformation applied to each face of the potting material. 
-The deformation is calculated based on the manufacturer provided percentage volumetric cure shrinkage $S$, assuming a purely isotropic shrinkage.
-For the three materials considered here, 
-
-The potted toroids and the FEA predicted equivalent stress due to the potting cure shrinkage is shown in \cref{fig:pottedtoroids}.
-The \textcolor{red}{harder encapsulation materials show higher residual stresses and hence higher core loss}. 
-\textcolor{red}{The silicone potting material from electrolube showed the lowest increase in core loss}.
-For improved impact resistance, silicone potting materials may be preferable due to their low hardness reducing the likelihood of fracturing the ferrite core material. 
-On the other hand, harder potting materials such as the polyurethane-based materials may be preferable to protect the Litz wire. 
-However, the designer must trade off the desired mechanical behaviour of the encapsulation material and the effect of the encapsulation material on the system core losses. 
+\lipsum[1]
 
 \section{Multiphysics Modelling of Potted IPT Pad}
 \label{sec:modelling}
@@ -316,15 +218,23 @@ The results of this simulation are shown in \cref{fig:pottingstresses}.
 This simulation models only the ferrites, casing and lower potting region shown in \cref{fig:padstructure} since the designed magnetics separates the casing in to two cavities and the Litz wire was shown to have minimal effect on the residual stresses in preliminary simulations. 
 The obtained residual stress-strain distribution is then used as an initial condition for the operational stress-strain simulation which models the full pad. 
 
-The EM simulation is set up for the designed \textcolor{red}{\SI{30}{\kilo\volt\ampere}} with only a single pad to reduce modelling complexity. 
-However, the addition of a second pad should not affect the results of these simulations assuming that the airgap is large enough to prevent thermal interaction between the two sets of magnetics, which is typical for EV charging applications.
-
+The simulations are set up for the designed \textcolor{red}{\SI{30}{\kilo\volt\ampere}} with only a single pad to reduce modelling complexity. 
+This approximates the excitation required for an IPT system transferring \SI{11}{\kilo\watt}. 
+The addition of a second pad should not affect the results of these simulations assuming that the airgap is large enough to prevent thermal interaction between the two sets of magnetics, which is typical for EV charging applications.
 
 \begin{figure}
   \include{figures/flowchart.tex}
   \caption{Flowchart of the multiphysics simulation including residual stress initial conditions and induced thermal stresses during operation}
   \label{fig:simulationflowchart}
 \end{figure}
+
+\subsection{Electromagnetic Domain}
+
+\lipsum[2]
+
+\subsection{Structural Domain} 
+
+\lipsum[2]
 
 \begin{table}
   \centering
@@ -341,30 +251,84 @@ However, the addition of a second pad should not affect the results of these sim
   \end{tabular}
 \end{table}
 
-\subsection{Experimental Verification}
+\subsection{Thermal Domain}
+
+\lipsum[2]
+
+\section{Experimental Verification}
+
+This section describes the construction and validation of an \SI{11}{\kilo\watt} DD IPT coil structure potted with UR5608 polyurethane encapsulation material. 
+The pad is measured under initial (ambient temperature) conditions before and after potting. 
+The potted pad is then evaluated at steady-state temperature conditions. 
+These experiments validate the simulation procedure described in \cref{sec:modelling}. 
+
+\subsection{Pad Construction}
+
+\lipsum[2]
+
+\begin{figure}
+  \centering
+  \begin{subfigure}{\columnwidth}
+    \centering
+    \includegraphics[width=3in]{figures/coilside.pdf}
+    \caption{}
+  \end{subfigure}
+  \vspace{1em}
+
+  \begin{subfigure}{\columnwidth}
+    \centering
+    \includegraphics[width=3in]{figures/ferriteside.pdf}
+    \caption{}
+  \end{subfigure}
+  \vspace{1em}
+
+  \begin{subfigure}{\columnwidth}
+    \centering
+    \includegraphics[width=3in]{example-image-c}
+    \caption{}
+  \end{subfigure}
+
+  \caption{Construction of IPT pad, (a) unpotted coil layer, (b) unpotted ferrite layer, (c) milled bottom surface of potted pad}
+\end{figure}
+
+\subsection{Core Loss Measurements}
 
 The core loss of a Double D IPT pad designed for \textcolor{red}{\SI{11}{\kilo\watt}} was measured using the stepped resonance method described in \cite{kalraPowerLossMeasurement2020}.
 At rated current, the unpotted pad showed a total loss of \textcolor{red}{\SI{0}{\watt}}, with \textcolor{red}{\SI{0}{\watt}} of core loss.
 When potted in two pours with UR5608, the total loss increased to \textcolor{red}{\SI{0}{\watt}} with \textcolor{red}{\SI{0}{\watt}} of core loss. 
-\cref{fig:pottingstresses} shows an FEA simulation of the residual stresses induced by this potting process. 
-Using the predicted equivalent stress in the ferrites, the Steinmetz coefficients for each ferrite tile were adjusted accordingly and the core loss distribution shown in \cref{fig:padcoreloss} was predicted. 
 The FEA simulation predicted a core loss of \textcolor{red}{\SI{0}{\watt}}, an error of \textcolor{red}{\SI{0}{\percent}}. 
 
+\lipsum[1]
+
 \begin{figure}[t]
-  %\includegraphics[width=3.5in, height=2in]{figures/padcoreloss}
+  \input{figures/sremethod.tex}
+  \caption{Circuit diagram of SRE method with ESR model for IPT pad including winding, ferrite and aluminium losses}
+  \label{fig:sremethodcircuitdiagram}
+\end{figure}
+
+\begin{figure}[t]
+  \includegraphics{figures/24-10-17_initialFerriteResistanceComparisonV2.pdf}
+  \caption{Measured ferrite resistance against resonant current for the constructed pad before and after potting}
+  \label{fig:initialFerriteResistanceComparison}
+\end{figure}
+
+\subsection{Thermal Measurements}
+
+\lipsum[2]
+
+\begin{figure}[t]
   \includegraphics[width=3.5in, height=2in]{figures/simulatedpottingpadstresses.pdf}
-  \caption{Predicted core loss distribution in DD pad under \textcolor{red}{\SI{30}{\kilo\volt\ampere}} operation considering thermal and structural impacts on the ferrites}
-  \label{fig:padcoreloss}
+  \caption{Predicted steady-state temperature distribution in DD pad under \textcolor{red}{\SI{30}{\kilo\volt\ampere}} operation considering thermal and structural impacts on the ferrites}
+  \label{fig:temperaturecomparison}
 \end{figure}
 
 \section{Conclusion}
 
 This article has measured the effects of compressive stress on TDK N95 ferrite and applied the gained insight to the multiphysics simulation of an Inductive Power Transfer (IPT) pad. 
 Under a \textcolor{red}{\SI{100}{\mega\pascal}} load, the core loss of the N95 ferrite increased by \textcolor{red}{\SI{100}{\percent}}. 
-The thermal strain due to residual stresses from the encapsulation process and heating during operation is investigated and the impact is significant. 
-Three ferrite toroids were potted with different materials and the effect on core loss is measured, the materials with \textcolor{red}{higher coefficient of thermal expansion} showed the greatest increase in core loss. 
+The loading due to residual stresses from the encapsulation process and heating during operation is investigated and the impact is significant. 
 Finally, a practical potted DD pad shows a \textcolor{red}{\SI{100}{\percent}} increase in core loss after encapsulation in a polyurethane material. 
-Multiphysics simulations which include the mechanical-thermal impacts of the encapsulation material on the magnetic losses matched the DD pad within \textcolor{red}{\SI{20}{\percent}}. 
+Multiphysics simulations which include the mechanical-thermal impacts of the encapsulation material on the magnetic losses matched the temperatures of the DD pad within \textcolor{red}{\SI{20}{\percent}}. 
 These results show that the choice of encapsulation material has a significant impact on the thermal and structural behaviour of the IPT pad. 
 Designers must trade off electrical, thermal and structural performance to choose a material suitable for the desired application.
 
