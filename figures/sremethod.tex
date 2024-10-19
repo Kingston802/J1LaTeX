@@ -1,21 +1,22 @@
+\centering
 \begin{circuitikz}
 \draw
     % Voltage source at the top
-    (0,0) to[vsourcesin, l=$V_\text{pa}$] (0,6)
+    (0,0) to[vsourcesin, l=$V_\text{pa}$] (0,4)
     
     % Capacitor in parallel with the voltage source
-    (0,6) -- (1.5,6) to[C, l=$C$] (1.5,3) to[R, l=$r_\text{C}$] (1.5,0) -- (0,0)
+    (0,4) -- (1.5,4) to[C, l_=$C$] (1.5,2.5) to[R, l_=$r_\text{C}$] (1.5,0) -- (0,0)
     
     % Horizontal inductor forming the start of the L-shape
-    (1.5,6) to[L, l=$L$] (6,6)
+    (1.5,4) to[L, l=$L$] (4,4)
     
     % Vertical resistors completing the L-shape
-    to[R, l=$r_\text{Cu}$] (6,4)
-    to[R, l=$r_\text{Fe}$] (6,2)
-    to[R, l=$r_\text{Al}$] (6,0) -- (1.5,0);
+    to[R, l=$r_\text{Cu}$] (4,2.66)
+    to[R, l=$r_\text{Fe}$] (4,1.33)
+    to[R, l=$r_\text{Al}$] (4,0) -- (1.5,0);
 
     % box around pad 
-    \draw[dashed] (3, 7) rectangle (7, -.5)
-    node[above, midway, yshift=4cm, font=\itshape] {IPT Pad};
+    \draw[dashed] (2, 5) rectangle (5, -.5)
+    node[above, xshift=-.9cm, yshift=4.9cm, font=\itshape] {IPT Pad};
 
 \end{circuitikz}
