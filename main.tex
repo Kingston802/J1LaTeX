@@ -61,20 +61,19 @@ Core loss, inductive power transfer (IPT), loss measurement, magnetic losses
 \end{IEEEkeywords}
 
 \section{Introduction}
-
 \IEEEPARstart{E}{lectric} vehicles (EVs) are increasingly common due to lowering costs and a rising need for climate change. 
 However, existing infrastructure favours the outgoing Internal Combustion Engine Vehicles (ICEVs), meaning charging EVs can be cumbersome. 
 Inductive power transfer (IPT) is a wireless charging technology that enables power transfer using magnetic fields. 
 The application of this technology to the charging of EVs could enable more reliable and convenient charging of EVs of all power levels \cite{covicModernTrendsInductive2013b}. 
 
-At higher power levels, thermal issues limit power density. 
+% thermals
+At higher power levels, increasing losses create thermal issues which limit power density. 
+
+% potting
 In order to improve the thermal performance of the IPT magnetics, both the coil and core layer (shown in \cref{fig:padstructure}) are `potted' in an encapsulant material \cite{kneidlProcessingInfluencesResinbased2020}. 
 Typical encapsulant materials have high thermal conductivity which improves the temperature profile uniformity and allows for a higher current density in the coil. 
 However, several articles have noted the deterimental effect of encapsulant materials on the magnetic performance of ferrites. 
-
-Polycrystalline ferrites show decreased magnetic permeability and a widening $B$-$H$ curve under applied pressure due to the compressed topography of the domain walls \cite{leflochEffectPressureSoft1981}. 
-Foote et. al verified the reduction in permeability and increased core loss through the construction of a small-scale potted IPT coil assembly, demonstrating a \SI{\sim 100}{\percent} increase in losses \cite{footeEncapsulationResidualStress2023}.
-This article aims to measure the effect of pressure on ferrite core loss at \SI{85}{\kilo\hertz} in a geometry independent and reproducable manner with standard core loss measurement techniques. Such that designers can better predict the impacts of encapsulation on the IPT system's behaviour. 
+Foote \cite{footeEncapsulationResidualStress2023} verified the reduction in permeability and increased core loss through the construction of a small-scale potted IPT coil assembly, demonstrating a \SI{\sim 100}{\percent} increase in losses.
 
 \begin{figure}[t]
   \centering
@@ -83,11 +82,29 @@ This article aims to measure the effect of pressure on ferrite core loss at \SI{
   \label{fig:padstructure}
 \end{figure}
 
+% core loss changing under pressure 
+Polycrystalline ferrites show decreased magnetic permeability and a widening $B$-$H$ curve under applied pressure due to the compressed topography of the domain walls \cite{leflochEffectPressureSoft1981}. 
+
+With the knowledge that the losses in commonly used ferrites depend heavily on encapsulation, there is then a need for a study which considers the multi-physics benefits, consequences and trade-offs of potting ferrites in IPT for HDEV charging. 
+The contributions of this article are as follows, 
+\begin{enumerate}
+  \item The measurement of Mn--Zn ferrite core loss under pressures typical of encapsulation using a PCB-based toroid winding to ensure an evenly applied load. 
+  \item A multi-physics FEA simulation procedure that includes the thermal, electro-magnetic and structural domains to account for the thermal stresses created under operation. 
+  \item Using the proposed simulation procedure, several design options are proposed to mitigate the increasing core losses due to encapsulation. 
+\end{enumerate}
+
+\cref{sec:characterisation} measures the core loss of TDK N95 ferrite under compressive stresses of \SIrange{0}{20}{\mega\pascal}. 
+\cref{sec:simulation} introduces the multi-physics simulation methodology which allows the consideration of the operational thermal stresses on the ferrites.
+Then, \cref{sec:experiments} verifies the proposed simulations with the construction and testing of an \SI{11}{\kilo\watt} prototype IPT coil assembly. 
+Finally, \cref{sec:conclusion} concludes the article. 
+
 \section{Characterisation of Ferrite Under Load}
+\label{sec:characterisation}
 
 \subsection{Methodology}
 
 \cref{fig:compressionholder} shows an overview of the designed setup. 
+\lipsum{1}
 
 \begin{figure}
   \centering
@@ -115,26 +132,26 @@ This article aims to measure the effect of pressure on ferrite core loss at \SI{
   \centering
   \begin{subfigure}{\columnwidth}
     \centering
-    \includegraphics{figures/24-09-10_BP_curves.pdf}
+    \includegraphics[width=3in]{example-image-a}
     \caption{}
     \label{fig:BPcurves}
   \end{subfigure}~
   \begin{subfigure}{\columnwidth}
     \centering
-    \includegraphics{figures/24-09-10_BP_curves.pdf}
+    \includegraphics[width=3in]{example-image-a}
     \caption{}
     \label{fig:corelossstress}
   \end{subfigure}
 
   \begin{subfigure}{\columnwidth}
     \centering
-    \includegraphics{figures/24-09-10_BP_curves.pdf}
+    \includegraphics[width=3in]{example-image-a}
     \caption{}
     \label{fig:BPcurves}
   \end{subfigure}~
   \begin{subfigure}{\columnwidth}
     \centering
-    \includegraphics{figures/24-09-10_BP_curves.pdf}
+    \includegraphics[width=3in]{example-image-a}
     \caption{}
     \label{fig:corelossstress}
   \end{subfigure}
@@ -256,6 +273,7 @@ The addition of a second pad should not affect the results of these simulations 
 \lipsum[2]
 
 \section{Experimental Verification}
+\label{sec:experiments}
 
 This section describes the construction and validation of an \SI{11}{\kilo\watt} DD IPT coil structure potted with UR5608 polyurethane encapsulation material. 
 The pad is measured under initial (ambient temperature) conditions before and after potting. 
@@ -264,14 +282,13 @@ These experiments validate the simulation procedure described in \cref{sec:model
 
 \subsection{Pad Construction}
 
-\lipsum[2]
-
 \begin{figure}
   \centering
   \begin{subfigure}{\columnwidth}
     \centering
     \includegraphics[width=3in]{figures/coilside.pdf}
     \caption{}
+    \label{fig:coilside}
   \end{subfigure}
   \vspace{1em}
 
@@ -279,6 +296,7 @@ These experiments validate the simulation procedure described in \cref{sec:model
     \centering
     \includegraphics[width=3in]{figures/ferriteside.pdf}
     \caption{}
+    \label{fig:ferriteside}
   \end{subfigure}
   \vspace{1em}
 
@@ -286,9 +304,11 @@ These experiments validate the simulation procedure described in \cref{sec:model
     \centering
     \includegraphics[width=3in]{example-image-c}
     \caption{}
+    \label{fig:finalpad}
   \end{subfigure}
 
   \caption{Construction of IPT pad, (a) unpotted coil layer, (b) unpotted ferrite layer, (c) milled bottom surface of potted pad}
+  \label{fig:padconstruction}
 \end{figure}
 
 \subsection{Core Loss Measurements}
@@ -302,13 +322,13 @@ The FEA simulation predicted a core loss of \textcolor{red}{\SI{0}{\watt}}, an e
 
 \begin{figure}[t]
   \input{figures/sremethod.tex}
-  \caption{Circuit diagram of SRE method with ESR model for IPT pad including winding, ferrite and aluminium losses}
+  \caption{Circuit diagram of SRE method with ESR model of the IPT pad including winding, ferrite and aluminium losses}
   \label{fig:sremethodcircuitdiagram}
 \end{figure}
 
 \begin{figure}[t]
   \includegraphics{figures/24-10-17_initialFerriteResistanceComparisonV2.pdf}
-  \caption{Measured ferrite resistance against resonant current for the constructed pad before and after potting}
+  \caption{Measured initial ferrite resistance against resonant current for the constructed pad before and after potting}
   \label{fig:initialFerriteResistanceComparison}
 \end{figure}
 
@@ -317,12 +337,24 @@ The FEA simulation predicted a core loss of \textcolor{red}{\SI{0}{\watt}}, an e
 \lipsum[2]
 
 \begin{figure}[t]
-  \includegraphics[width=3.5in, height=2in]{figures/simulatedpottingpadstresses.pdf}
-  \caption{Predicted steady-state temperature distribution in DD pad under \textcolor{red}{\SI{30}{\kilo\volt\ampere}} operation considering thermal and structural impacts on the ferrites}
+  \centering
+  \begin{subfigure}{\columnwidth}
+    \centering
+    \includegraphics[width=3in, height=2in]{figures/simulatedpottingpadstresses.pdf}
+    \caption{}
+  \end{subfigure}
+
+  \begin{subfigure}{\columnwidth}
+    \centering
+    \includegraphics[width=3in, height=2in]{figures/simulatedpottingpadstresses.pdf}
+    \caption{}
+  \end{subfigure}
+  \caption{(a) Predicted and (b) experimental steady-state temperature distribution in DD pad under \textcolor{red}{\SI{30}{\kilo\volt\ampere}} operation considering thermal and structural impacts on the ferrites}
   \label{fig:temperaturecomparison}
 \end{figure}
 
 \section{Conclusion}
+\label{sec:conclusion}
 
 This article has measured the effects of compressive stress on TDK N95 ferrite and applied the gained insight to the multiphysics simulation of an Inductive Power Transfer (IPT) pad. 
 Under a \textcolor{red}{\SI{100}{\mega\pascal}} load, the core loss of the N95 ferrite increased by \textcolor{red}{\SI{100}{\percent}}. 
@@ -333,6 +365,7 @@ These results show that the choice of encapsulation material has a significant i
 Designers must trade off electrical, thermal and structural performance to choose a material suitable for the desired application.
 
 \section*{References}
+
 \printbibliography[heading=none]
 
 \end{document}
