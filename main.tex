@@ -34,15 +34,15 @@ eprint=false
 
 \begin{document}
 
-\title{Influence of Encapsulation on Core Loss of Ferrites in Inductive Power Transfer}
+\title{Influence of Encapsulation on the Core Loss of Ferrites in Inductive Power Transfer}
 
 \author{
-  Alexander K. Bailey, Jerry Sun\textsuperscript{\textdagger}, Seho Kim, Willsen Wijaya\textsuperscript{\textdagger}, Tom Allen\textsuperscript{\textdagger}, Grant A. Covic\\
+  Alexander K. Bailey, Willsen Wijaya\textsuperscript{\textdagger}, Seho Kim, Jerry Sun\textsuperscript{\textdagger}, Tom Allen\textsuperscript{\textdagger}, Grant A. Covic\\
   \textit{Department of Electrical, Computer and Software Engineering}\\
   \textit{\textsuperscript{\textdagger}Centre for Advanced Materials Manufacturing and Design}\\
   \textit{University of Auckland}\\
   Auckland, New Zealand\\
-  \{alexander.bailey, jerry.sun, seho.kim, willsen.wijaya, tom.allen, ga.covic\}@auckland.ac.nz\\ 
+  \{alexander.bailey, willsen.wijaya, seho.kim, jerry.sun, tom.allen, ga.covic\}@auckland.ac.nz\\ 
 }
 \maketitle
 \thispagestyle{plain}
@@ -94,23 +94,50 @@ The contributions of this article are as follows,
 \end{enumerate}
 
 \cref{sec:characterisation} measures the core loss of TDK N95 ferrite under compressive stresses of \SIrange{0}{20}{\mega\pascal}. 
-\cref{sec:simulation} introduces the multi-physics simulation methodology which allows the consideration of the operational thermal stresses on the ferrites.
+\cref{sec:modelling} introduces the multi-physics simulation methodology which allows the consideration of the operational thermal stresses on the ferrites.
 Then, \cref{sec:experiments} verifies the proposed simulations with the construction and testing of an \SI{11}{\kilo\watt} prototype IPT coil assembly. 
 Finally, \cref{sec:conclusion} concludes the article. 
 
 \section{Characterisation of Ferrite Under Load}
 \label{sec:characterisation}
 
+This section presents experiments which measure the core loss of TDK N95 Mn--Zn ferrite tiles under compressive stress. 
+
 \subsection{Methodology}
 
-\cref{fig:compressionholder} shows an overview of the designed setup. 
-\lipsum{1}
+Toroids of TDK N95 ferrite were cut from \SI{5}{\milli\meter} thick tiles using a water jet cutter. 
+The toroid properties are given in \cref{tab:toroidproperties}.
+The machining of ferrite has also been shown to increase core losses due to the mechanical stress imposed on the surface during the cutting process \cite{neumayrOriginQuantificationIncreased2019}. 
+However, this effect is concentrated on the cut surface which for this case is the outer and inner surfaces, not in the mean flux path of the toroid and hence the effects are expected to be minimal. 
 
-\begin{figure}
+Previous compressive stress measurements have left gaps for wire windings in the compression fixture.
+This creates tensile forces in the surface of the ferrite which causes failure much before the expected force in pure compression. 
+To avoid this, this article proposes using a PCB based toroid which is significantly more robust than traditional wires. 
+
+\cref{fig:compressionholder} shows an exploded view of the designed fixture. 
+Starting from the center, a ferrite toroid with the dimensions given in \cref{tab:toroidproperties} is placed in a machined FR4 holder which prevents lateral movement of the toroid. 
+A PCB is placed below the FR4 holder which has 4 turns for each winding. 
+The whole setup is mirrored top and bottom and the two PCBs are connected using brass M5 bolts. 
+Note that, to prevent losing an electrical connection at higher displacements, both sides of each M5 bolt are fitted with brass spring washers. 
+Finally, on top and bottom a second machined FR4 piece is used to apply load to the PCB without contacting the M5 bolts. 
+
+\begin{figure}[t]
   \centering
   \includegraphics{figures/compressionholder.pdf}
   \caption{Exploded diagram of designed toroid compression setup}
   \label{fig:compressionholder}
+\end{figure}
+
+This fixture applies the load through the PCB winding which prevents issues created by the gaps required for wire windings. 
+\cref{fig:fixturefea} shows a structural FEA simulation of the proposed fixture. 
+\textcolor{red}{The compressive stress in the $z$ direction varies by \SI{10}{\mega\pascal} across the surface of the toroid.}
+The applied force, $F_z$ is then varied from \textcolor{red}{\SIrange{0}{100}{\kilo\newton}} to produce a compressive stress of \textcolor{red}{\SIrange{0}{10}{\mega\pascal}}.
+
+\begin{figure}[t]
+  \centering 
+  \includegraphics[width=3in, height=2in]{example-image-a}
+  \caption{FEA simulation of compression fixture using PCB windings}
+  \label{fig:fixturefea}
 \end{figure}
 
 \begin{table}
@@ -128,6 +155,41 @@ Finally, \cref{sec:conclusion} concludes the article.
   \end{tabular}
   \label{tab:toroidproperties}
 \end{table}
+
+For each mechanical loading scenario, the core loss $P_\text{core}$ was then measured using a partial cancellation method which modifies the conventional two-winding core loss measurement method with a compensation capacitor $C_s$ in series to cancel the reactive voltage across the inductor under test $L_t$ \cite{houNewHighFrequencyCore2017}. 
+The equivalent circuit of this method is shown in \cref{fig:partialcancellationcircuit}.
+$C_s$ could be selected to completely cancel the reactive power in the system, but maintaining resonance for different operating conditions is challenging. 
+Instead, a partial cancellation method defines a voltage cancellation factor $k_v$, the ratio of the cancelled reactive voltage to the total reactive voltage, to only `partially' cancel the reactive component of $L_t$. 
+In order to determine the value of $k_v$, a phase pertubation is introduced into $i_L$, $k_v$ can then be calculated by setting \cref{eqn:pcore} equal to the perturbed signal $P_\text{core}^\prime$.
+Using this method core loss was calculated from measurements of the current flowing through the primary winding $i_L(t)$, the voltage on the secondary winding $v_2(t)$ and the voltage across the compensation capacitor $v_C(t)$ by, 
+\begin{equation}
+  P_\text{core} = f \int_0^T v_2(t)i_L(t)dt + \frac{f}{k_v} \int_0^T v_c(t)i_L(t) dt
+  \label{eqn:pcore}
+\end{equation}
+\begin{equation}
+  k_v = \frac{\int_0^T v_c(t)i_L(t)dt - \int_0^T v_ci_L^\prime(t)dt}{\int_0^T v_2(t) i_L^\prime(t) dt - \int_0^T v_2(t) i_L(t) dt}
+  \label{eqn:kv}
+\end{equation}
+
+\begin{figure}[t]
+  \begin{subfigure}{\columnwidth}
+    \centering
+    \include{figures/partialcancellationcircuit.tex}
+    \caption{}
+    \label{fig:partialcancellationcircuit}
+  \end{subfigure}
+
+  \vspace{1em}
+
+  \begin{subfigure}{\columnwidth}
+    \centering
+    \includegraphics{figures/experimentalsetup.pdf}
+    \caption{}
+    \label{fig:experimentalsetup}
+  \end{subfigure}
+  \caption{(a) Equivalent circuit of the partial cancellation method, (b) Experimental setup for core loss measurement under compressive stress}
+\end{figure}
+\subsection{Loaded Toroid Results}
 \begin{figure*}[t]
   \centering
   \begin{subfigure}{\columnwidth}
@@ -158,51 +220,6 @@ Finally, \cref{sec:conclusion} concludes the article.
   \caption{(a) $B$-$P$ curves of the TDK N95 ferrite toroid under several levels of compressive loading $\overline{\sigma_\text{eqv}}$, (b) Core loss of TDK N95 ferrite toroid under several levels of compressive loading at \SI{\sim 5}{\milli\tesla}, \SI{\sim 25}{\milli\tesla}, \SI{\sim 50}{\milli\tesla} and \SI{\sim 100}{\milli\tesla}, \SI{85}{\kilo\hertz}, (c) Reduction in permeability after loading is removed, (d) Increasing core loss after loading is removed}
 \end{figure*}
 
-Toroids of TDK N95 ferrite were cut from \SI{5}{\milli\meter} tiles using a water jet cutter and wound with litz on the primary and magnet wire on the secondary. 
-The toroid properties are given in \cref{tab:toroidproperties}.
-The machining of ferrite has also been shown to increase core losses due to the mechanical stress imposed on the surface during the cutting process \cite{neumayrOriginQuantificationIncreased2019}. 
-However, this effect is concentrated on the cut surface which for this case is the outer and inner surfaces, not in the mean flux path of the toroid hence the effects are expected to be minimal. 
-Regardless, the following experiments include a factory-epoxy-coated R34 toroid of TDK N95 ferrite as a reference. 
-
-For each mechanical loading scenario, the core loss $P_\text{core}$ was then measured using a partial cancellation method which modifies the conventional two-winding core loss measurement method with a compensation capacitor $C_s$ in series to cancel the reactive voltage across the inductor under test $L_t$ \cite{houNewHighFrequencyCore2017}. 
-The equivalent circuit of this method is shown in \cref{fig:partialcancellationcircuit}.
-$C_s$ could be selected to completely cancel the reactive power in the system, but maintaining resonance for different operating conditions is challenging. 
-Instead, a partial cancellation method defines a voltage cancellation factor $k_v$, the ratio of the cancelled reactive voltage to the total reactive voltage, to only `partially' cancel the reactive component of $L_t$. 
-In order to determine the value of $k_v$, a phase pertubation is introduced into $i_L$, creating \cref{eqn:pcoreprime}, $k_v$ can then be calculated by combining \cref{eqn:pcore} and \cref{eqn:pcoreprime}.
-Using this method core loss was calculated from measurements of the current flowing through the primary winding $i_L(t)$, the voltage on the secondary winding $v_2(t)$ and the voltage across the compensation capacitor $v_C(t)$ by, 
-\begin{equation}
-  P_\text{core} = f \int_0^T v_2(t)i_L(t)dt + \frac{f}{k_v} \int_0^T v_c(t)i_L(t) dt
-  \label{eqn:pcore}
-\end{equation}
-\begin{equation}
-  P_\text{core}^{\prime} = f \int_0^T v_2(t)i_L^{\prime} (t)dt + \frac{f}{k_v} \int_0^T v_c(t)i_L^{\prime}(t) dt
-  \label{eqn:pcoreprime}
-\end{equation}
-\begin{equation}
-  k_v = \frac{\int_0^T v_c(t)i_L(t)dt - \int_0^T v_ci_L^\prime(t)dt}{\int_0^T v_2(t) i_L^\prime(t) dt - \int_0^T v_2(t) i_L(t) dt}
-  \label{eqn:kv}
-\end{equation}
-
-\begin{figure}[t]
-  \begin{subfigure}{\columnwidth}
-    \centering
-    \include{figures/partialcancellationcircuit.tex}
-    \caption{}
-    \label{fig:partialcancellationcircuit}
-  \end{subfigure}
-
-  \vspace{1em}
-
-  \begin{subfigure}{\columnwidth}
-    \centering
-    \includegraphics{figures/experimentalsetup.pdf}
-    \caption{}
-    \label{fig:experimentalsetup}
-  \end{subfigure}
-  \caption{(a) Equivalent circuit of the partial cancellation method, (b) Experimental setup for core loss measurement under compressive stress}
-\end{figure}
-\subsection{Loaded Toroid Results}
-
 \cref{fig:BPcurves} shows the measured $B$-$P$ curve for each of the loading scenarios of the cut toroid and a reference manufacturer provided toroid. 
 The unloaded cut toroid has slightly lower loss density than the manufacturer epoxied toroid, despite the stress-state from machining. 
 This shows that the machined toroid is suitable for these measurements. 
@@ -220,7 +237,7 @@ The results presented in \cref{fig:BPcurves} and \cref{fig:corelossstress} are a
 Ferrite losses are non-linearly related to temperature and, as shown previously, compressive stress. 
 Due to the thermal expansion of the constituent materials, both the thermal and mechanical physics are heavily coupled, this expansion creates compressive stresses which effect the electromagnetic (EM) simulation. 
 In order to predict the core loss of potted IPT pads operating at a thermal steady-state, this article proposes a multiphysics simulation methodology presented in \cref{fig:simulationflowchart}. 
-All FEA simulations are conducting using Ansys Workbench, Ansys Maxwell for EM results, Ansys Mechanical for the stress-strain results and Ansys Steady-state Thermal for temperature predition. 
+All FEA simulations are conducting using Ansys Workbench, Ansys Maxwell for EM results, Ansys Mechanical for the stress-strain results and Ansys Steady-state Thermal for temperature prediction. 
 
 \begin{figure}[t]
   \centering
@@ -229,19 +246,13 @@ All FEA simulations are conducting using Ansys Workbench, Ansys Maxwell for EM r
   \label{fig:pottingstresses}
 \end{figure}
 
-The residual stresses are calculated by structural FEA simulation assuming a constant body temperature of $T_\text{cure}$ cooling to ambient (\SI{25}{\celsius}). 
-The cure shrinkage is accounted for by modelling a displacement of the potting material based on the manufacturer stated cure shrinkage, i.e. for cure shrinkage of \SI{1}{\percent} a fixed deformation is applied to each face such that the total volume of the body reduces by \SI{1}{\percent}.
-The results of this simulation are shown in \cref{fig:pottingstresses}. 
-This simulation models only the ferrites, casing and lower potting region shown in \cref{fig:padstructure} since the designed magnetics separates the casing in to two cavities and the Litz wire was shown to have minimal effect on the residual stresses in preliminary simulations. 
-The obtained residual stress-strain distribution is then used as an initial condition for the operational stress-strain simulation which models the full pad. 
-
 The simulations are set up for the designed \textcolor{red}{\SI{30}{\kilo\volt\ampere}} with only a single pad to reduce modelling complexity. 
 This approximates the excitation required for an IPT system transferring \SI{11}{\kilo\watt}. 
 The addition of a second pad should not affect the results of these simulations assuming that the airgap is large enough to prevent thermal interaction between the two sets of magnetics, which is typical for EV charging applications.
 
 \begin{figure}
   \include{figures/flowchart.tex}
-  \caption{Flowchart of the multiphysics simulation including residual stress initial conditions and induced thermal stresses during operation}
+  \caption{Flowchart overview of the multiphysics simulation procedure including residual stress initial conditions and induced thermal stresses during operation}
   \label{fig:simulationflowchart}
 \end{figure}
 
@@ -250,6 +261,12 @@ The addition of a second pad should not affect the results of these simulations 
 \lipsum[2]
 
 \subsection{Structural Domain} 
+
+The residual stresses are calculated by structural FEA simulation assuming a constant body temperature of $T_\text{cure}$ cooling to ambient (\SI{25}{\celsius}). 
+The cure shrinkage is accounted for by modelling a displacement of the potting material based on the manufacturer stated cure shrinkage, i.e. for cure shrinkage of \SI{1}{\percent} a fixed deformation is applied to each face such that the total volume of the body reduces by \SI{1}{\percent}.
+The results of this simulation are shown in \cref{fig:pottingstresses}. 
+This simulation models only the ferrites, casing and lower potting region shown in \cref{fig:padstructure} since the designed magnetics separates the casing in to two cavities and the Litz wire was shown to have minimal effect on the residual stresses in preliminary simulations. 
+The obtained residual stress-strain distribution is then used as an initial condition for the operational stress-strain simulation which models the full pad. 
 
 \lipsum[2]
 
@@ -278,9 +295,27 @@ The addition of a second pad should not affect the results of these simulations 
 This section describes the construction and validation of an \SI{11}{\kilo\watt} DD IPT coil structure potted with UR5608 polyurethane encapsulation material. 
 The pad is measured under initial (ambient temperature) conditions before and after potting. 
 The potted pad is then evaluated at steady-state temperature conditions. 
-These experiments validate the simulation procedure described in \cref{sec:modelling}. 
+These experiments are designed to validate the simulation procedure described in \cref{sec:modelling}. 
 
 \subsection{Pad Construction}
+
+A DD IPT coil is wound bifilar using \textcolor{red}{1860} strand litz wire with three turns. 
+The coil casing is split into two sections to allow for seperate pours of the encapsulation material. 
+The top section contains the coil as shown in \cref{fig:coilside}. 
+The return portion of the litz wire that passes under the coil is insulated with Kapton tape to mitigate any chance of insulation failure due to the high potential difference at opposite ends of the coil. 
+
+\cref{fig:ferriteside} shows the opposite side of the casing before potting. 
+The ferrite tiles are fixed to the casing before potting with a small pour of the UR5608 polyurethene material which is cured at room temperature. 
+This ensures that the tiles stay in place during the curing process of the coil side. 
+A PTFE tube, which carries distributed Fibre-Bragg Gratings (FBGs) for temperature measurement, is bonded to the ferrite tiles with a cyanoacrylate-based adhesive. 
+
+The pad is then potted in two pours. 
+First, the coil side is potted and cured in autoclave at \SI{5}{\bar}, \SI{60}{\celsius} which is the manufacturer recommended curing temperature for a simple single temperature curing profile. 
+The applied pressure minimises the formation of voids, bubbles of air in the encapsulation material which reduce the thermal conductivity and structural properties of the final cured product. 
+After curing at temperature for \textcolor{red}{\SI{6}{\hour}}, the pad is allowed ot cool to ambient overnight before a second pour on the ferrite side with the same parameters. 
+
+After the above potting process, the cured polyurethane material is milled down to a flat surface using a CNC milling machine. 
+This ensures that the top and bottom surfaces of the pad are flat. 
 
 \begin{figure}
   \centering
@@ -314,8 +349,11 @@ These experiments validate the simulation procedure described in \cref{sec:model
 \subsection{Core Loss Measurements}
 
 The core loss of a Double D IPT pad designed for \textcolor{red}{\SI{11}{\kilo\watt}} was measured using the stepped resonance method described in \cite{kalraPowerLossMeasurement2020}.
+This method uses a resonant current of \SI{\sim 1}{\ampere} to determine the winding loss, $P_\text{Cu}$, since the core loss increases with $\sim B^2$ and $B \propto I$.
+This means that by subtracting the equivalent series resistance (ESR) at \SI{\sim 1}{\ampere} and the ESR of the resonant capacitor, $r_\text{C}$, we can determine the changing ESR due to the core losses of the ferrite, $r_\text{Fe}$. 
+
 At rated current, the unpotted pad showed a total loss of \textcolor{red}{\SI{0}{\watt}}, with \textcolor{red}{\SI{0}{\watt}} of core loss.
-When potted in two pours with UR5608, the total loss increased to \textcolor{red}{\SI{0}{\watt}} with \textcolor{red}{\SI{0}{\watt}} of core loss. 
+When potted as described previously, the total loss increased to \textcolor{red}{\SI{0}{\watt}} with \textcolor{red}{\SI{0}{\watt}} of core loss. 
 The FEA simulation predicted a core loss of \textcolor{red}{\SI{0}{\watt}}, an error of \textcolor{red}{\SI{0}{\percent}}. 
 
 \lipsum[1]
@@ -338,15 +376,23 @@ The FEA simulation predicted a core loss of \textcolor{red}{\SI{0}{\watt}}, an e
 
 \begin{figure}[t]
   \centering
+  \includegraphics[width=3in, height=2in]{example-image-a}
+  \caption{Experimental setup for steady-state thermal measurements}
+  \label{fig:thermalexperimentalsetup}
+\end{figure}
+
+\begin{figure}[t]
+  \centering
   \begin{subfigure}{\columnwidth}
     \centering
-    \includegraphics[width=3in, height=2in]{figures/simulatedpottingpadstresses.pdf}
+    \includegraphics[width=3in, height=2in]{example-image-a}
     \caption{}
   \end{subfigure}
+  \vspace{1em}
 
   \begin{subfigure}{\columnwidth}
     \centering
-    \includegraphics[width=3in, height=2in]{figures/simulatedpottingpadstresses.pdf}
+    \includegraphics[width=3in, height=2in]{example-image-b}
     \caption{}
   \end{subfigure}
   \caption{(a) Predicted and (b) experimental steady-state temperature distribution in DD pad under \textcolor{red}{\SI{30}{\kilo\volt\ampere}} operation considering thermal and structural impacts on the ferrites}
